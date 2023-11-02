@@ -16,8 +16,6 @@
 
 struct {
     struct user user;
-} resturant;
-
-void signup();
+} restaurant;
 
 #endif
