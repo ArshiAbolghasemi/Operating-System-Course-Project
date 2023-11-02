@@ -17,7 +17,6 @@ void say_wellcome(char* username, char* role)
     trim_white_space_left(username);
     sprintf(buffer, "welcome %s as %s!!\n", color(username, YELLOW), role);
     write(STDIN_FILENO, buffer, strlen(buffer));
-    new_command_line();
 }
 
 int validate_port(char* _port)
