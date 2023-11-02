@@ -4,7 +4,7 @@ char buffer[BUFFER_SIZE];
 
 char* get_user_name(void)
 {
-    echo("Please enter youre %s : ", color("username", YELLOW));
+    echo("Please enter you're %s : ", color("username", YELLOW));
     memset(buffer, 0, BUFFER_SIZE);
     read(STDIN_FILENO, buffer, BUFFER_SIZE);
 
@@ -64,11 +64,11 @@ int setup_broadcast_fd()
 void bind_socket_to_port(int port, int socket_fd, char* host_address, struct sockaddr_in* sockaddr)
 {
     sockaddr->sin_family = AF_INET;
-    sockaddr->sin_port = htons((uint16_t)port);
+    sockaddr->sin_port = htons(port);
     sockaddr->sin_addr.s_addr = inet_addr(host_address);
     if (bind(socket_fd, (struct sockaddr*)sockaddr, sizeof(*sockaddr)) < 0)
     {
-        error("failed to bing socket %d to port %d", socket_fd, port);
+        error("failed to bind socket %d to port %d", socket_fd, port);
         exit(EXIT_FAILURE);
     }
 }
