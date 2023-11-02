@@ -18,6 +18,6 @@ RUN git clone https://github.com/DaveGamble/cJSON.git /cJSON \
 
 COPY . ${CONTAINER_DIR}
 
-VOLUME ${CONTAINER_DIR}
+VOLUME ${CONTAINER_DIR} 
 
 CMD ["-m", "512"]
