@@ -1,5 +1,5 @@
-#ifndef _RESTURANT_H_
-#define _RESTURANT_H_
+#ifndef _RESTAURANT_H_
+#define _RESTAURANT_H_
 
 #include <unistd.h> 
 #include <sys/socket.h> 
