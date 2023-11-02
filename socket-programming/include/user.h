@@ -8,10 +8,15 @@
 
 struct user {
     char username[MAX_USERNAME_LENGTH];
+    int udp_port;
 };
 
-char* get_user_name();
+char* get_user_name(void);
 
 void say_wellcome(char* username, char* role);
+
+void set_user_info(int argc, char const *argv[], struct  user* _user);
+
+void setup_user(int argc, char const *argv[], struct user* _user, char* role);
 
 #endif
