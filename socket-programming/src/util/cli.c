@@ -12,3 +12,10 @@ void echo(char* format, ...)
 
     va_end(args);
 }
+
+void new_command_line()
+{
+    memset(buffer, 0, BUFFER_SIZE);
+    sprintf(buffer, "%s ", FIRST_LINE_SIGN);
+    write(STDOUT_FILENO, buffer, strlen(buffer));
+}
