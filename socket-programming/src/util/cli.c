@@ -35,9 +35,9 @@ void error(char* format, ...)
     free(new_format);
 }
 
-void new_command_line()
+void propmt()
 {
     memset(buffer, 0, BUFFER_SIZE);
-    sprintf(buffer, "%s ", FIRST_LINE_SIGN);
+    sprintf(buffer, "%s ", PROMPT);
     write(STDOUT_FILENO, buffer, strlen(buffer));
 }

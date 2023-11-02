@@ -10,7 +10,7 @@
 
 #define BUFFER_SIZE 1024
 
-#define FIRST_LINE_SIGN ">>"
+#define PROMPT ">>"
 
 void echo_args(char* format, va_list args);
 
@@ -18,6 +18,6 @@ void echo(char* format, ...);
 
 void error(char* format, ...);
 
-void new_command_line();
+void propmt();
 
 #endif
