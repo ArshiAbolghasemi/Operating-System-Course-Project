@@ -2,9 +2,9 @@
 
 char* color(char* text, AnsiColor color)
 {
-    char* result = NULL;
-    asprintf(&result, '\x1B[%dm%s\x1B[%dm', color, DEFAULT);
-    return result;
+    char* temp = (char*)malloc(256);
+    sprintf(temp, "\x1B[%dm%s\x1B[%dm\n", color, text, DEFAULT);
+    return temp;
 }
 
 void print_cli(char* format, ...)
@@ -14,7 +14,7 @@ void print_cli(char* format, ...)
     va_list args;
     va_start(args, format);
 
-    sprintf(buffer, format, args);
+    vsnprintf(buffer, BUFFER_SIZE, format, args);
     write(STDIN_FILENO, buffer, strlen(buffer));
 
     va_end(args);
