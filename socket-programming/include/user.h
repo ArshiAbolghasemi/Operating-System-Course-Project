@@ -16,7 +16,7 @@
 
 #define MAX_USERNAME_LENGTH 1024
 
-#define BROADCAST_ADDR "192.168.1.255"
+#define BROADCAST_ADDR "255.255.255.255"
 
 struct user {
     char username[MAX_USERNAME_LENGTH];

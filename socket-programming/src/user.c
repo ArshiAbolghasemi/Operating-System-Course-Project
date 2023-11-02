@@ -25,7 +25,7 @@ int validate_port(char* _port)
     char* endPtr;
     long port = strtol(_port, &endPtr, 10);
     if (port < 1024 || port > 65535 || *endPtr != '\0') {
-        error("Invalid port | port: \n", _port);
+        error("Invalid port | port: %d\n", port);
         exit(EXIT_FAILURE);
     }
 
@@ -34,9 +34,9 @@ int validate_port(char* _port)
 
 void set_user_info(int argc, char const *argv[], struct  user* _user)
 {
+     _user->udp_port = validate_port((char*)argv[1]);
     char* username = get_user_name();
     strcpy(_user->username, username);
-    _user->udp_port = validate_port((char*)argv[1]);
 }
 
 int setup_broadcast_fd()
@@ -67,8 +67,10 @@ void bind_socket_to_port(int port, int socket_fd, char* host_address, struct use
     sockaddr.sin_family = AF_INET;
     sockaddr.sin_port = htons(port);
     sockaddr.sin_addr.s_addr = inet_addr(host_address);
+    echo("ali %d %d\n", socket_fd, port);
     if (bind(socket_fd, (struct sockaddr*)&sockaddr, sizeof(sockaddr)) < 0)
     {
+        error("%d %d\n", socket_fd, port);
         error("failed to bind socket %d to port %d\n", socket_fd, port);
         exit(EXIT_FAILURE);
     }
@@ -84,6 +86,7 @@ void setup_user(int argc, char const *argv[], struct user* _user, char* role)
     
     set_user_info(argc, argv, _user);
     int broadcast_fd = setup_broadcast_fd();
+    _user->broadcast_fd = broadcast_fd;
     bind_socket_to_port(_user->udp_port, broadcast_fd, BROADCAST_ADDR, _user);
 
     say_wellcome(_user->username, "restaurant");
