@@ -18,7 +18,7 @@ OUT_CUSTOMER = customer
 
 #-----------------------------------------------
 
-all: $(PATH_OBJ) $(OUT_RESTAURANT)
+all: $(PATH_OBJ) $(OUT_RESTAURANT) $(OUT_CUSTOMER)
 
 $(OUT_RESTAURANT): $(addprefix $(PATH_OBJ)/, $(OBJS_RESTAURANT))
 	$(CC) $(CFLAGS) -o $@ $^
