@@ -8,7 +8,7 @@ void echo(char* format, ...)
     va_start(args, format);
 
     vsnprintf(buffer, BUFFER_SIZE, format, args);
-    write(STDIN_FILENO, buffer, strlen(buffer));
+    write(STDOUT_FILENO, buffer, strlen(buffer));
 
     va_end(args);
 }
