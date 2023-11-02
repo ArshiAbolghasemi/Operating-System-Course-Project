@@ -1,5 +1,7 @@
 #include "../../include/util/cli.h"
 
+extern char buffer[BUFFER_SIZE];
+
 void echo(char* format, ...)
 {
     memset(buffer, 0, BUFFER_SIZE);
