@@ -22,7 +22,7 @@ struct user {
     char username[MAX_USERNAME_LENGTH];
     int udp_port;
     int broadcast_fd;
-    struct sockaddr_in bc_address;
+    struct sockaddr_in* bc_address;
 };
 
 char* get_user_name(void);
@@ -35,7 +35,7 @@ void set_user_info(int argc, char const *argv[], struct  user* _user);
 
 int setup_broadcast_fd();
 
-void bind_socket_to_port(int port, int socket_fd, char* host_address, struct sockaddr_in* sockaddr);
+void bind_socket_to_port(int port, int socket_fd, char* host_address, struct user* _user);
 
 void free_resources(struct user* _user);
 

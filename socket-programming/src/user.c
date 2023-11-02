@@ -61,16 +61,18 @@ int setup_broadcast_fd()
     return sock_fd;
 }
 
-void bind_socket_to_port(int port, int socket_fd, char* host_address, struct sockaddr_in* sockaddr)
+void bind_socket_to_port(int port, int socket_fd, char* host_address, struct user* _user)
 {
-    sockaddr->sin_family = AF_INET;
-    sockaddr->sin_port = htons(port);
-    sockaddr->sin_addr.s_addr = inet_addr(host_address);
-    if (bind(socket_fd, (struct sockaddr*)sockaddr, sizeof(*sockaddr)) < 0)
+    struct sockaddr_in sockaddr;
+    sockaddr.sin_family = AF_INET;
+    sockaddr.sin_port = htons(port);
+    sockaddr.sin_addr.s_addr = inet_addr(host_address);
+    if (bind(socket_fd, (struct sockaddr*)&sockaddr, sizeof(sockaddr)) < 0)
     {
-        error("failed to bind socket %d to port %d", socket_fd, port);
+        error("failed to bind socket %d to port %d\n", socket_fd, port);
         exit(EXIT_FAILURE);
     }
+    _user->bc_address = &sockaddr;
 }
 
 void setup_user(int argc, char const *argv[], struct user* _user, char* role)
@@ -82,7 +84,7 @@ void setup_user(int argc, char const *argv[], struct user* _user, char* role)
     
     set_user_info(argc, argv, _user);
     int broadcast_fd = setup_broadcast_fd();
-    bind_socket_to_port(_user->udp_port, broadcast_fd, BROADCAST_ADDR, &_user->bc_address);
+    bind_socket_to_port(_user->udp_port, broadcast_fd, BROADCAST_ADDR, _user);
 
     say_wellcome(_user->username, "restaurant");
 }
