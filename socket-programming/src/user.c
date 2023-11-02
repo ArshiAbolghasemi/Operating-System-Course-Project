@@ -20,21 +20,74 @@ void say_wellcome(char* username, char* role)
     new_command_line();
 }
 
+int validate_port(char* _port)
+{
+    char* endPtr;
+    long port = strtol(_port, &endPtr, 10);
+    if (port < 1024 || port > 65535 || *endPtr != '\0') {
+        error("Invalid port | port: \n", _port);
+        exit(EXIT_FAILURE);
+    }
+
+    return (int)port;
+}
+
 void set_user_info(int argc, char const *argv[], struct  user* _user)
 {
     char* username = get_user_name();
     strcpy(_user->username, username);
-    _user->udp_port = atoi(argv[1]);
+    _user->udp_port = validate_port((char*)argv[1]);
+}
+
+int setup_broadcast_fd()
+{
+    int broadcast = 1, opt = 1, sock_fd = socket(PF_INET, SOCK_DGRAM, 0);
+
+    if (sock_fd < 1) {
+        error("failed to create new socket!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if (setsockopt(sock_fd, SOL_SOCKET, SO_BROADCAST, &broadcast, sizeof(broadcast)) < 0) {
+        error("failed to setup broadcast option!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if (setsockopt(sock_fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt)) < 0) {
+        error("failed to setup reuse port option!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    return sock_fd;
+}
+
+void bind_socket_to_port(int port, int socket_fd, char* host_address, struct sockaddr_in* sockaddr)
+{
+    sockaddr->sin_family = AF_INET;
+    sockaddr->sin_port = htons((uint16_t)port);
+    sockaddr->sin_addr.s_addr = inet_addr(host_address);
+    if (bind(socket_fd, (struct sockaddr*)sockaddr, sizeof(*sockaddr)) < 0)
+    {
+        error("failed to bing socket %d to port %d", socket_fd, port);
+        exit(EXIT_FAILURE);
+    }
 }
 
 void setup_user(int argc, char const *argv[], struct user* _user, char* role)
 {
     if (argc != 2) {
-        echo("%s", color("invalid input!\n", RED));
+        error("invalid input!\n");
         exit(EXIT_FAILURE);
     }
     
     set_user_info(argc, argv, _user);
+    int broadcast_fd = setup_broadcast_fd();
+    bind_socket_to_port(_user->udp_port, broadcast_fd, BROADCAST_ADDR, &_user->bc_address);
 
     say_wellcome(_user->username, "restaurant");
+}
+
+void free_resources(struct user* _user)
+{
+    close(_user->broadcast_fd);
 }
