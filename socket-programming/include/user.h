@@ -6,8 +6,7 @@
 
 #define MAX_USERNAME_LENGTH 1024
 
-struct user
-{
+struct user {
     char username[MAX_USERNAME_LENGTH];
 };
 
