@@ -1,13 +1,6 @@
 #include "../../include/util/cli.h"
 
-char* color(char* text, AnsiColor color)
-{
-    char* temp = (char*)malloc(256);
-    sprintf(temp, "\x1B[%dm%s\x1B[%dm\n", color, text, DEFAULT);
-    return temp;
-}
-
-void print_cli(char* format, ...)
+void echo(char* format, ...)
 {
     memset(buffer, 0, BUFFER_SIZE);
 
