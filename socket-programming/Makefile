@@ -12,6 +12,7 @@ vpath %.h $(PATH_INC) $(PATH_INC_UTIL)
 
 OBJS_RESTAURANT = restaurant.o user.o cli.o util.o
 OBJS_CUSTOMER = customer.o user.o cli.o util.o
+OBJS_SUPPLIER = supplier.o user.o cli.o util.o
 
 OUT_RESTAURANT  = restaurant
 OUT_CUSTOMER = customer
@@ -32,6 +33,9 @@ $(PATH_OBJ)/restaurant.o: restaurant.c restaurant.h user.h
 $(PATH_OBJ)/customer.o: customer.c customer.h user.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+$(PATH_OBJ)/supplier.o: supplier.c supplier.h user.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
 $(PATH_OBJ)/user.o: user.c util.h cli.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
@@ -48,5 +52,5 @@ $(PATH_OBJ): ; mkdir -p $@
 .PHONY: all clean
 
 clean:
-	rm -rf $(PATH_OBJ) $(OUT_RESTAURANT) $(OUT_CUSTOMER) $(PATH_INC)/*.h.gch *.o *.out > /dev/null 2>&1
+	rm -rf $(PATH_OBJ) $(OUT_RESTAURANT) $(OUT_CUSTOMER) $(OBJS_SUPPLIER) $(PATH_INC)/*.h.gch *.o *.out > /dev/null 2>&1
 
