@@ -15,6 +15,18 @@ void echo(char* format, ...)
     va_end(args);
 }
 
+void error(char* format, ...)
+{
+    memset(buffer, 0, BUFFER_SIZE);
+
+    va_list args;
+    va_start(args, format);
+    char* new_format = (char*)malloc(BUFFER_SIZE);
+    sprintf(new_format, "%s %s", color("Error:", RED), format);
+    echo(new_format, args);
+    free(new_format);
+}
+
 void new_command_line()
 {
     memset(buffer, 0, BUFFER_SIZE);
