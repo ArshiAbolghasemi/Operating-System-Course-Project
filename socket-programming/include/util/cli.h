@@ -12,6 +12,10 @@
 
 #define PROMPT ">>"
 
+#define CMD_EXIT_CODE 0
+
+extern char buffer[BUFFER_SIZE];
+
 void echo_args(char* format, va_list args);
 
 void echo(char* format, ...);
