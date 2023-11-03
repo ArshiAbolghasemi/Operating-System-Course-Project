@@ -41,4 +41,6 @@ void free_resources(struct user* _user);
 
 void setup_user(int argc, char const *argv[], struct user* _user, char* role);
 
+void broadcast_msg(char* msg, int broadcast_fd, struct sockaddr_in sockaddr);
+
 #endif

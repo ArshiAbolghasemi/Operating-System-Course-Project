@@ -82,10 +82,18 @@ void setup_user(int argc, char const *argv[], struct user* _user, char* role)
     _user->broadcast_fd = broadcast_fd;
     bind_socket_to_port(_user->udp_port, broadcast_fd, BROADCAST_ADDR, _user);
 
-    say_wellcome(_user->username, "restaurant");
+    say_wellcome(_user->username, role);
 }
 
 void free_resources(struct user* _user)
 {
     close(_user->broadcast_fd);
+}
+
+void broadcast_msg(char* msg, int broadcast_fd, struct sockaddr_in bc_sockaddr)
+{
+    if (sendto(broadcast_fd, msg, strlen(msg), 0,
+            (struct sockaddr *)&bc_sockaddr, sizeof(bc_sockaddr)) < 0) {
+        error("failed to send %s message\n", msg);        
+    }
 }
