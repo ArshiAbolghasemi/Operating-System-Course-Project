@@ -28,3 +28,10 @@ void implode(char *result, const char **array, int array_size, const char *separ
         }
     }
 }
+
+char* convert_int_to_char(int _value)
+{
+    char* _ch = (char*)malloc(5);
+    sprintf(_ch, "%d", _value);
+    return _ch;
+}
