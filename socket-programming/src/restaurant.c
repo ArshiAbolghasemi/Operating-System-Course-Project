@@ -80,6 +80,8 @@ int command()
         close_restaurant();
     } else if (strcmp(cmd, "show ingredients") == 0) {
         show_ingredients();
+    } else if (strcmp(cmd, "show recipes") == 0) {
+        show_all_recipes();
     } else if (cmd == '\0' || strcmp(cmd, "exit") == 0) {
         return EXIT;
     } else {
