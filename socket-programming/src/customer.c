@@ -1,9 +1,43 @@
 #include "../include/customer.h"
 
+void show_menu()
+{
+    newline();
+
+    for (int i = 0; i < MAX_TABLE_LENGHT; i++) {
+        echo("-");
+    }
+    newline();
+
+    echo("1- %s\n\r2- %s\n\r3- %s\n\r",
+        color("Fessenjan", CYAN),
+        color("Tahchin", CYAN),
+        color("Baghali Polo", CYAN));
+
+    for (int i = 0; i < MAX_TABLE_LENGHT; i++) {
+        echo("-");
+    }
+    newline();
+    newline();
+}
+
+int command()
+{
+    memset(cmd, 0, BUFFER_SIZE);
+    read(STDIN_FILENO, cmd, BUFFER_SIZE);
+    trim_white_space_left(cmd);
+
+    if (strcmp(cmd, "show menu") == 0) show_menu();
+    else if (cmd == '\0' || strcmp(cmd, "exit") == 0) return EXIT;
+    else error("Invalid command!\n");
+
+    return 1;
+}
+
 int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_set)
 {
-    if (FD_ISSET(socket_fd, _working_set)) {
-        // command
+    if (FD_ISSET(STDIN_FILENO, _working_set)) {
+        return command();
     }
     
     if (FD_ISSET(customer.user.broadcast_fd, _working_set)) {
@@ -29,10 +63,13 @@ void run()
         working_set = master_set;
 
         if (select(max_fd + 1, &working_set, NULL, NULL, NULL) < 0) error("faile in select");
-
+        
+        int exit;
         for (int socket_fd = 0; socket_fd <= max_fd; socket_fd++) 
             if (FD_ISSET(socket_fd, &working_set))
-                handle_socket(socket_fd, &working_set, &master_set);
+                exit = handle_socket(socket_fd, &working_set, &master_set);
+        
+        if (exit == EXIT) break;
     }
 }
 
