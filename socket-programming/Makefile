@@ -27,23 +27,23 @@ $(OUT_RESTAURANT): $(addprefix $(PATH_OBJ)/, $(OBJS_RESTAURANT))
 $(OUT_CUSTOMER): $(addprefix $(PATH_OBJ)/, $(OBJS_CUSTOMER))
 	$(CC) $(CFLAGS) -o $@ $^
 
-$(PATH_OBJ)/restaurant.o: restaurant.c restaurant.h user.h
+$(PATH_OBJ)/restaurant.o: restaurant.c restaurant.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(PATH_OBJ)/customer.o: customer.c customer.h user.h
+$(PATH_OBJ)/customer.o: customer.c customer.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(PATH_OBJ)/supplier.o: supplier.c supplier.h user.h
+$(PATH_OBJ)/supplier.o: supplier.c supplier.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(PATH_OBJ)/user.o: user.c util.h cli.h
+$(PATH_OBJ)/user.o: user.c util.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(PATH_OBJ)/cli.o: cli.c 
+$(PATH_OBJ)/cli.o: cli.c cli.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(PATH_OBJ)/util.o: util.c
-	$(CC) $(CFLAGS) -c -o $@ $^	
+$(PATH_OBJ)/util.o: util.c util.h
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 #-----------------------------------------------
 
