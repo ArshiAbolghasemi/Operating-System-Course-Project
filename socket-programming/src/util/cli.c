@@ -34,6 +34,17 @@ void error(char* format, ...)
     free(new_format);
 }
 
+void warn(char* format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    char* new_format = (char*)malloc(BUFFER_SIZE);
+    sprintf(new_format, "%s %s", color("Warning:", YELLOW), format);
+    echo_args(new_format, args);
+    va_end(args);
+    free(new_format);
+}
+
 void propmt()
 {
     memset(buffer, 0, BUFFER_SIZE);
