@@ -31,7 +31,7 @@ int validate_port(char* _port)
 
 void set_user_info(int argc, char const *argv[], struct  user* _user)
 {
-     _user->udp_port = validate_port((char*)argv[1]);
+    _user->udp_port = validate_port((char*)argv[1]);
     char* username = get_user_name();
     strcpy(_user->username, username);
 }
