@@ -31,4 +31,5 @@ void show_all_recipes()
         echo("-");
     }
     newline();
+    newline();
 }

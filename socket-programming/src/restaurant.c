@@ -66,6 +66,7 @@ void show_ingredients()
         echo("-");
     }
     newline();
+    newline();
 }
 
 int command()
