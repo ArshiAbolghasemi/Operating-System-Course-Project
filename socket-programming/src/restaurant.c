@@ -32,6 +32,42 @@ void close_restaurant()
     broadcast_msg(msg, restaurant.user.broadcast_fd, restaurant.user.bc_address);
 }
 
+void show_ingredients()
+{
+    if (restaurant.ingredients_cnt == 0) {
+        warn("You don't have any ingredients\n");
+        return;
+    }
+
+    newline();
+    for (int i = 0; i < MAX_TABLE_LENGHT; i++) {
+        echo("-");
+    }
+    newline();
+
+    const char* header[] = {"ingredient", "amount"};
+    memset(cmd, 0, BUFFER_SIZE);
+    implode(cmd, header, 2, (const char*)" / ");
+    echo("%s", color(cmd, YELLOW));
+    newline();
+
+    for (int i = 0; i < restaurant.ingredients_cnt; i++){
+        echo("%s", color((char*)restaurant.ingredients[i].name, GREEN)); 
+        space();
+        echo("/");
+        space();
+        char amount_char[5];
+        sprintf(amount_char, "%d", restaurant.ingredients[i].amount);
+        echo("%s", color(convert_int_to_char(restaurant.ingredients[i].amount), GREEN));
+        newline();
+    }
+    
+    for (int i = 0; i < MAX_TABLE_LENGHT; i++) {
+        echo("-");
+    }
+    newline();
+}
+
 int command()
 {
     memset(cmd, 0, BUFFER_SIZE);
@@ -42,10 +78,14 @@ int command()
         open_restaurant();
     } else if (strcmp(cmd, "break") == 0) {
         close_restaurant();
-    } else if (cmd == '\0') {
+    } else if (strcmp(cmd, "show ingredients") == 0) {
+        show_ingredients();
+    } else if (cmd == '\0' || strcmp(cmd, "exit") == 0) {
         return EXIT;
+    } else {
+        error("Invalid command!\n");
     }
-    
+
     return 1;
 }
 
