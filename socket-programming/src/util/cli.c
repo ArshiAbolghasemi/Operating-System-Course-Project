@@ -65,10 +65,3 @@ void space()
 {
     echo(" ");
 }
-
-void propmt()
-{
-    memset(buffer, 0, BUFFER_SIZE);
-    sprintf(buffer, "%s ", PROMPT);
-    write(STDOUT_FILENO, buffer, strlen(buffer));
-}

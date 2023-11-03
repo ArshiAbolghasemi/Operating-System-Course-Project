@@ -10,8 +10,6 @@
 
 #define BUFFER_SIZE 1024
 
-#define PROMPT ">>"
-
 extern char buffer[BUFFER_SIZE];
 
 #define EXIT -1
@@ -32,7 +30,5 @@ void info(char* format, ...);
 void newline();
 
 void space();
-
-void propmt();
 
 #endif
