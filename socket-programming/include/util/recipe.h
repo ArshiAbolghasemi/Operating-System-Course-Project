@@ -12,6 +12,6 @@ struct recipe {
     ingredient ingredients[MAX_INGREDIENTS_PER_RECIPE];    
 };
 
-void show_all_recipes();
+void show_all_recipes(void);
 
 #endif

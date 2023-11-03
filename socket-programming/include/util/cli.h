@@ -27,8 +27,8 @@ void warn(char* format, ...);
 
 void info(char* format, ...);
 
-void newline();
+void newline(void);
 
-void space();
+void space(void);
 
 #endif

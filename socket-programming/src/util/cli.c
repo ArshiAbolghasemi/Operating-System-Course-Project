@@ -56,12 +56,12 @@ void info(char* format, ...)
     free(new_format);
 }
 
-void newline()
+void newline(void)
 {
     echo("\r\n");
 }
 
-void space()
+void space(void)
 {
     echo(" ");
 }

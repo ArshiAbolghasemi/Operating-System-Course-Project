@@ -1,6 +1,6 @@
 #include "../../include/util/recipe.h"
 
-void show_all_recipes()
+void show_all_recipes(void)
 {
     //TODO: read it form recipes.json file
     newline();

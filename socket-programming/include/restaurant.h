@@ -19,11 +19,11 @@ struct {
     int ingredients_cnt;
 } restaurant;
 
-void open_restaurant();
+void open_restaurant(void);
 
-void close_restaurant();
+void close_restaurant(void);
 
-void show_ingredients();
+void show_ingredients(void);
 
 int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_Ser);
 

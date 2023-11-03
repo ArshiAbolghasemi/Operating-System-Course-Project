@@ -1,6 +1,6 @@
 #include "../include/restaurant.h"
 
-void open_restaurant()
+void open_restaurant(void)
 {
     if (restaurant.is_opened == OPENED) {
         warn("restaurant was opened!\n");
@@ -16,7 +16,7 @@ void open_restaurant()
     broadcast_msg(msg, restaurant.user.broadcast_fd, restaurant.user.bc_address);
 }
 
-void close_restaurant()
+void close_restaurant(void)
 {
     if (restaurant.is_opened == CLOSED) {
         error("restaurant is not opened yet!\n");
@@ -32,7 +32,7 @@ void close_restaurant()
     broadcast_msg(msg, restaurant.user.broadcast_fd, restaurant.user.bc_address);
 }
 
-void show_ingredients()
+void show_ingredients(void)
 {
     if (restaurant.ingredients_cnt == 0) {
         warn("You don't have any ingredients\n");
@@ -69,7 +69,7 @@ void show_ingredients()
     newline();
 }
 
-int command()
+int command(void)
 {
     memset(cmd, 0, BUFFER_SIZE);
     read(STDIN_FILENO, cmd, BUFFER_SIZE);
@@ -92,7 +92,7 @@ int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_Ser)
     }
 }
 
-void run()
+void run(void)
 {
     open_restaurant();
     fd_set master_set, working_set;

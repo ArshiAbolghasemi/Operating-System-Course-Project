@@ -36,7 +36,7 @@ void set_user_info(int argc, char const *argv[], struct  user* _user)
     strcpy(_user->username, username);
 }
 
-int setup_broadcast_fd()
+int setup_broadcast_fd(void)
 {
     int broadcast = 1, opt = 1, sock_fd = socket(PF_INET, SOCK_DGRAM, 0);
 

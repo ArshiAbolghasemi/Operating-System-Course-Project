@@ -1,6 +1,6 @@
 #include "../include/customer.h"
 
-void show_menu()
+void show_menu(void)
 {
     newline();
 
@@ -21,7 +21,7 @@ void show_menu()
     newline();
 }
 
-int command()
+int command(void)
 {
     memset(cmd, 0, BUFFER_SIZE);
     read(STDIN_FILENO, cmd, BUFFER_SIZE);
@@ -50,7 +50,7 @@ int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_set)
     return 1;
 }
 
-void run()
+void run(void)
 {
     fd_set master_set, working_set;
     FD_ZERO(&master_set);
