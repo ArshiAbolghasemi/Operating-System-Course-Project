@@ -15,6 +15,7 @@
 extern char buffer[BUFFER_SIZE];
 
 #define EXIT -1
+#define MAX_TABLE_LENGHT 50
 
 void clear(char* buffer);
 
@@ -30,7 +31,7 @@ void info(char* format, ...);
 
 void newline();
 
-void space():
+void space();
 
 void propmt();
 
