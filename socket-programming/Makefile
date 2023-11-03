@@ -10,7 +10,7 @@ PATH_OBJ = ./obj
 vpath %.c $(PATH_SRC) $(PATH_SRC_UTIL)
 vpath %.h $(PATH_INC) $(PATH_INC_UTIL)
 
-OBJS_RESTAURANT = restaurant.o user.o cli.o util.o
+OBJS_RESTAURANT = restaurant.o user.o recipe.o cli.o util.o
 OBJS_CUSTOMER = customer.o user.o cli.o util.o
 OBJS_SUPPLIER = supplier.o user.o cli.o util.o
 
@@ -37,6 +37,9 @@ $(PATH_OBJ)/supplier.o: supplier.c supplier.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(PATH_OBJ)/user.o: user.c util.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(PATH_OBJ)/recipe.o: recipe.c recipe.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(PATH_OBJ)/cli.o: cli.c cli.h
