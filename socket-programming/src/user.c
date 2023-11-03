@@ -13,10 +13,8 @@ char* get_user_name(void)
 
 void say_wellcome(char* username, char* role)
 {
-    memset(buffer, 0, BUFFER_SIZE);
     trim_white_space_left(username);
-    sprintf(buffer, "welcome %s as %s!!\n", color(username, YELLOW), role);
-    write(STDIN_FILENO, buffer, strlen(buffer));
+    echo("welcome %s as %s!!\n", color(username, YELLOW), role);
 }
 
 int validate_port(char* _port)
@@ -62,18 +60,14 @@ int setup_broadcast_fd()
 
 void bind_socket_to_port(int port, int socket_fd, char* host_address, struct user* _user)
 {
-    struct sockaddr_in sockaddr;
-    sockaddr.sin_family = AF_INET;
-    sockaddr.sin_port = htons(port);
-    sockaddr.sin_addr.s_addr = inet_addr(host_address);
-    echo("ali %d %d\n", socket_fd, port);
-    if (bind(socket_fd, (struct sockaddr*)&sockaddr, sizeof(sockaddr)) < 0)
+    _user->bc_address.sin_family = AF_INET;
+    _user->bc_address.sin_port = htons(port);
+    _user->bc_address.sin_addr.s_addr = inet_addr(host_address);
+    if (bind(socket_fd, (struct sockaddr*)&_user->bc_address, sizeof(_user->bc_address)) < 0)
     {
-        error("%d %d\n", socket_fd, port);
         error("failed to bind socket %d to port %d\n", socket_fd, port);
         exit(EXIT_FAILURE);
     }
-    _user->bc_address = &sockaddr;
 }
 
 void setup_user(int argc, char const *argv[], struct user* _user, char* role)

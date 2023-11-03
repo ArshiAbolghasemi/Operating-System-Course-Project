@@ -22,7 +22,7 @@ struct user {
     char username[MAX_USERNAME_LENGTH];
     int udp_port;
     int broadcast_fd;
-    struct sockaddr_in* bc_address;
+    struct sockaddr_in bc_address;
 };
 
 char* get_user_name(void);
