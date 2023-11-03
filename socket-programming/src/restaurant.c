@@ -2,16 +2,34 @@
 
 void open_restaurant()
 {
-    restaurant.is_opened = 1;
+    if (restaurant.is_opened == OPENED) {
+        warn("restaurant was opened!\n");
+        return;
+    }
+    
+    restaurant.is_opened = OPENED;
+    info("restaurant is opened\n");
     
     memset(msg, 0, BUFFER_SIZE);
     sprintf(msg, "%s Restaurant %s!\n", 
-        color((char* )restaurant.user.username, YELLOW), color("opened", GREEN));   
-    if (sendto(restaurant.user.broadcast_fd, msg, strlen(msg), 0,
-            (struct sockaddr *)&restaurant.user.bc_address, 
-            sizeof(restaurant.user.bc_address)) < 0) {
-        error("failed to send opern message\n");        
+        color((char*)restaurant.user.username, YELLOW), color("opened", GREEN));   
+    broadcast_msg(msg, restaurant.user.broadcast_fd, restaurant.user.bc_address);
+}
+
+void close_restaurant()
+{
+    if (restaurant.is_opened == CLOSED) {
+        error("restaurant is not opened yet!\n");
+        return;
     }
+    
+    restaurant.is_opened = CLOSED;
+    info("restaurant is closed\n");
+
+    memset(msg, 0, BUFFER_SIZE);
+    sprintf(msg, "%s Restaurant %s!\n",
+        color((char*)restaurant.user.username, YELLOW), color("closed", RED));
+    broadcast_msg(msg, restaurant.user.broadcast_fd, restaurant.user.bc_address);
 }
 
 int command()
@@ -20,13 +38,15 @@ int command()
     read(STDIN_FILENO, cmd, BUFFER_SIZE);
     trim_white_space_left(cmd);
     
-    if (strcmp(cmd, "start working")) {
+    if (strcmp(cmd, "start working") == 0) {
         open_restaurant();
+    } else if (strcmp(cmd, "break") == 0) {
+        close_restaurant();
     } else if (cmd == '\0') {
-        return EXIT_FAILURE;
+        return EXIT;
     }
     
-    return EXIT_FAILURE;
+    return 1;
 }
 
 void run()
@@ -40,20 +60,18 @@ void run()
     int max_fd = restaurant.user.broadcast_fd;
     while (1) {
         working_set = master_set;
-        propmt();
 
         if (select(max_fd + 1, &working_set, NULL, NULL, NULL) < 0) {
             error("failed in select process");
             return;
         }
 
-        if (FD_ISSET(STDIN_FILENO, &working_set)) {
-            int result = command();
-            if (result == EXIT_FAILURE) {
+        if (FD_ISSET(restaurant.user.broadcast_fd, &working_set)) {
+            propmt();
+            if (command() == EXIT) {
                 break;
             }
         }
-        break;
     }
 }
 
