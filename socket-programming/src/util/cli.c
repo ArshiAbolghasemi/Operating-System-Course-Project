@@ -28,7 +28,7 @@ void error(char* format, ...)
     va_list args;
     va_start(args, format);
     char* new_format = (char*)malloc(BUFFER_SIZE);
-    sprintf(new_format, "%s %s", color("Error:", RED), format);
+    sprintf(new_format, "%s %s", color("[ERROR]", RED), format);
     echo_args(new_format, args);
     va_end(args);
     free(new_format);
@@ -39,7 +39,18 @@ void warn(char* format, ...)
     va_list args;
     va_start(args, format);
     char* new_format = (char*)malloc(BUFFER_SIZE);
-    sprintf(new_format, "%s %s", color("Warning:", YELLOW), format);
+    sprintf(new_format, "%s %s", color("[WARNING]", YELLOW), format);
+    echo_args(new_format, args);
+    va_end(args);
+    free(new_format);
+}
+
+void info(char* format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    char* new_format = (char*)malloc(BUFFER_SIZE);
+    sprintf(new_format, "%s %s", color("[INFO]", GREEN), format);
     echo_args(new_format, args);
     va_end(args);
     free(new_format);

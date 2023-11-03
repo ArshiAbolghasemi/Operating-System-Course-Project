@@ -26,6 +26,8 @@ void error(char* format, ...);
 
 void warn(char* format, ...);
 
+void info(char* format, ...)
+
 void propmt();
 
 #endif
