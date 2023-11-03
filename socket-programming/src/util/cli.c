@@ -1,6 +1,12 @@
 #include "../../include/util/cli.h"
 
-// extern char buffer[BUFFER_SIZE];
+void clear(char* buffer)
+{
+    write(STDOUT_FILENO, "\r", 1);
+    for (int i = 0; i < BUFFER_SIZE && buffer[i] != '\0'; ++i)
+        write(STDOUT_FILENO, " ", 1);
+    write(STDOUT_FILENO, "\r", 1);
+}
 
 void echo_args(char* format, va_list args)
 {
