@@ -25,7 +25,7 @@ void close_restaurant();
 
 void show_ingredients();
 
-int command();
+int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_Ser);
 
 void run();
 

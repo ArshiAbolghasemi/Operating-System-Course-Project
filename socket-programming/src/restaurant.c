@@ -91,6 +91,13 @@ int command()
     return 1;
 }
 
+int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_Ser)
+{
+    if (FD_ISSET(STDIN_FILENO, _working_set)) {
+        return command();
+    }
+}
+
 void run()
 {
     open_restaurant();
@@ -108,12 +115,12 @@ void run()
             return;
         }
 
-        if (FD_ISSET(restaurant.user.broadcast_fd, &working_set)) {
-            propmt();
-            if (command() == EXIT) {
-                break;
-            }
-        }
+        int exit;
+        for (int socket_fd = 0; socket_fd <= max_fd; socket_fd++) 
+            if (FD_ISSET(socket_fd, &working_set))
+                exit = handle_socket(socket_fd, &working_set, &master_set);
+
+        if (exit == EXIT) break;
     }
 }
 

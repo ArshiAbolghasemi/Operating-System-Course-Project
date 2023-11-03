@@ -1,13 +1,18 @@
 #include "../include/customer.h"
 
-int handle_event(fd_set* _working_set)
+int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_set)
 {
+    if (FD_ISSET(socket_fd, _working_set)) {
+        // command
+    }
+    
     if (FD_ISSET(customer.user.broadcast_fd, _working_set)) {
         memset(msg, 0, BUFFER_SIZE);
         int recv_bytes = recv(customer.user.broadcast_fd, msg, BUFFER_SIZE, 0);
         clear(cmd);     
         echo("%s\n", msg);
     }
+    
     return 1;
 }
 
@@ -22,10 +27,12 @@ void run()
 
     while (1) {
         working_set = master_set;
-        propmt();
 
         if (select(max_fd + 1, &working_set, NULL, NULL, NULL) < 0) error("faile in select");
-        else if (handle_event(&working_set) == EXIT) break;
+
+        for (int socket_fd = 0; socket_fd <= max_fd; socket_fd++) 
+            if (FD_ISSET(socket_fd, &working_set))
+                handle_socket(socket_fd, &working_set, &master_set);
     }
 }
 
