@@ -28,6 +28,10 @@ void warn(char* format, ...);
 
 void info(char* format, ...);
 
+void newline();
+
+void space():
+
 void propmt();
 
 #endif

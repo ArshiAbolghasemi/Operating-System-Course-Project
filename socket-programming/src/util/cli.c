@@ -56,6 +56,16 @@ void info(char* format, ...)
     free(new_format);
 }
 
+void newline()
+{
+    echo("\r\n");
+}
+
+void space()
+{
+    echo(" ");
+}
+
 void propmt()
 {
     memset(buffer, 0, BUFFER_SIZE);
