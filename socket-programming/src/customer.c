@@ -25,7 +25,7 @@ void run()
         propmt();
 
         if (select(max_fd + 1, &working_set, NULL, NULL, NULL) < 0) error("faile in select");
-        else if (handle_event(&working_set) == EXIT_FAILURE) break;
+        else if (handle_event(&working_set) == EXIT) break;
     }
 }
 
