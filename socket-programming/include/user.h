@@ -18,6 +18,8 @@
 
 #define BROADCAST_ADDR "255.255.255.255"
 
+#define FAILED_ACCEPT_CLIENT_CODE -1
+
 struct user {
     char username[MAX_USERNAME_LENGTH];
     int udp_port;
@@ -33,7 +35,7 @@ int validate_port(char* port);
 
 void set_user_info(int argc, char const *argv[], struct  user* _user);
 
-int setup_broadcast_fd();
+int setup_broadcast_fd(void);
 
 void bind_socket_to_port(int port, int socket_fd, char* host_address, struct user* _user);
 
@@ -42,5 +44,7 @@ void free_resources(struct user* _user);
 void setup_user(int argc, char const *argv[], struct user* _user, char* role);
 
 void broadcast_msg(char* msg, int broadcast_fd, struct sockaddr_in sockaddr);
+
+int accept_client(int server_fd);
 
 #endif

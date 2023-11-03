@@ -25,7 +25,9 @@ void close_restaurant(void);
 
 void show_ingredients(void);
 
-int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_Ser);
+int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_set, int max_fd);
+
+void connect_new_user(int max_fd, fd_set* _working_set, fd_set* _master_set);
 
 void run();
 

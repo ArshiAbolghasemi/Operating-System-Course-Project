@@ -85,11 +85,25 @@ int command(void)
     return 1;
 }
 
-int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_Ser)
+int handle_socket(int socket_fd, fd_set* _working_set, fd_set* _master_set, int max_fd)
 {
     if (FD_ISSET(STDIN_FILENO, _working_set)) {
         return command();
     }
+
+    if (socket_fd = restaurant.user.broadcast_fd) {
+        connect_new_user(max_fd, _working_set, _master_set);
+        return 0;
+    }
+}
+
+void connect_new_user(int max_fd, fd_set* _working_set, fd_set* _master_set)
+{
+    int new_socket = accept_client(restaurant.user.broadcast_fd);
+    if (new_socket == FAILED_ACCEPT_CLIENT_CODE) return;
+
+    FD_SET(new_socket, _master_set);
+    if (new_socket > max_fd) max_fd = new_socket;
 }
 
 void run(void)
@@ -112,7 +126,7 @@ void run(void)
         int exit;
         for (int socket_fd = 0; socket_fd <= max_fd; socket_fd++) 
             if (FD_ISSET(socket_fd, &working_set))
-                exit = handle_socket(socket_fd, &working_set, &master_set);
+                exit = handle_socket(socket_fd, &working_set, &master_set, max_fd);
 
         if (exit == EXIT) break;
     }

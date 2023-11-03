@@ -97,3 +97,16 @@ void broadcast_msg(char* msg, int broadcast_fd, struct sockaddr_in bc_sockaddr)
         error("failed to send %s message\n", msg);        
     }
 }
+
+int accept_client(int server_fd)
+{
+    int client_fd;
+    struct sockaddr_in client_address;
+    int address_len = sizeof(client_address);
+    if(client_fd = accept(server_fd, (struct sockaddr *)&client_address, (socklen_t*) &address_len) < 0) {
+        error("failed to accept new client");
+        return FAILED_ACCEPT_CLIENT_CODE;
+    }
+
+    return client_fd;
+}
