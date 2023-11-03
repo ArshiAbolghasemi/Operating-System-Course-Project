@@ -75,19 +75,12 @@ int command()
     read(STDIN_FILENO, cmd, BUFFER_SIZE);
     trim_white_space_left(cmd);
     
-    if (strcmp(cmd, "start working") == 0) {
-        open_restaurant();
-    } else if (strcmp(cmd, "break") == 0) {
-        close_restaurant();
-    } else if (strcmp(cmd, "show ingredients") == 0) {
-        show_ingredients();
-    } else if (strcmp(cmd, "show recipes") == 0) {
-        show_all_recipes();
-    } else if (cmd == '\0' || strcmp(cmd, "exit") == 0) {
-        return EXIT;
-    } else {
-        error("Invalid command!\n");
-    }
+    if (strcmp(cmd, "start working") == 0) open_restaurant();
+    else if (strcmp(cmd, "break") == 0)close_restaurant();
+    else if (strcmp(cmd, "show ingredients") == 0) show_ingredients();
+    else if (strcmp(cmd, "show recipes") == 0) show_all_recipes();
+    else if (cmd == '\0' || strcmp(cmd, "exit") == 0) return EXIT;
+    else error("Invalid command!\n");
 
     return 1;
 }
