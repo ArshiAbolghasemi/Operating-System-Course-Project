@@ -16,3 +16,15 @@ void trim_white_space_left(char *str)
         length--;
     }
 }
+
+void implode(char *result, const char **array, int array_size, const char *separator) 
+{
+    strcpy(result, "");
+
+    for (int i = 0; i < array_size; i++) {
+        strcat(result, array[i]);
+        if (i < array_size - 1) {
+            strcat(result, separator);
+        }
+    }
+}

@@ -19,4 +19,6 @@ char* color(char* text, AnsiColor color);
 
 void trim_white_space_left(char *str);
 
+void implode(char *result, const char **array, int array_size, const char *separator);
+
 #endif
