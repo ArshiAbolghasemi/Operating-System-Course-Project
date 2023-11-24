@@ -12,6 +12,7 @@ void Log::logLevelMsg(const LogLevel logLevel)
             break;
         case LogLevel::ERROR:
             std::cout << colors::Red + "[ERROR]" + colors::Reset << " ";
+            break;
         default:
             throw new std::runtime_error("Invalid log level!");
     }
