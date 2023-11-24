@@ -1,4 +1,4 @@
 *.o
 *.out
 .vscode
-process-management/buildings/.DS_Store
+process-management/data/buildings/.DS_Store
