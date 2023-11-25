@@ -15,7 +15,6 @@ UtilitiesCalculatorEngine::UtilitiesCalculatorEngine(int argc, char* argv[])
     for (const auto buildingPath : std::get<1>(buildingsSubdir)) {
         this->buildings.push_back(new Building(buildingPath));
     }
-
 }
 
 UtilitiesCalculatorEngine::~UtilitiesCalculatorEngine() 
