@@ -18,6 +18,9 @@
 #include "./service/file_service.hpp"
 #include "./building.hpp"
 #include "./util/table.hpp"
+#include "./worker/worker.hpp"
+#include "./worker/bills_wroker.hpp"
+#include "./worker/buildings_worker.hpp"
 
 class UtilitiesCalculatorEngine
 {
@@ -28,9 +31,8 @@ private:
 public:
     UtilitiesCalculatorEngine(int argc, char* argv[]);
     ~UtilitiesCalculatorEngine();
-
     void printBuildings();
-
+    int runWorkers();
     int run();
 };
 

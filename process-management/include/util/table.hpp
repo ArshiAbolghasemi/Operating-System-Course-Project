@@ -16,11 +16,8 @@ private:
 public:
     Table();
     ~Table();
-
     void setColumns(std::vector<std::string> cols);
-
     void addRows(std::map<int, std::map<std::string, std::string>> rows);
-
     void print();
 };
 

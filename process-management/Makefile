@@ -4,16 +4,22 @@ CFLAGS :=
 PATH_SRC = ./src
 PATH_SRC_UTIL = $(PATH_SRC)/util
 PATH_SRC_SERVICE = $(PATH_SRC)/service
+PATH_SRC_WORKER = $(PATH_SRC)/worker
+PATH_SRC_PIPE = $(PATH_SRC)/pipe
 PATH_INC = ./include
 PATH_INC_UTIL = $(PATH_INC)/util
 PATH_INC_SERVICE = $(PATH_INC)/service
+PATH_INC_WORKER = $(PATH_INC)/worker
+PATH_INC_PIPE = $(PATH_INC)/pipe
 PATH_OBJ = ./obj
 
-vpath %.cpp $(PATH_SRC) $(PATH_SRC_UTIL) $(PATH_SRC_SERVICE)
-vpath %.hpp $(PATH_INC) $(PATH_INC_UTIL) $(PATH_INC_SERVICE)
+vpath %.cpp $(PATH_SRC) $(PATH_SRC_UTIL) $(PATH_SRC_SERVICE) $(PATH_SRC_SERVICE) $(PATH_SRC_PIPE)
+vpath %.hpp $(PATH_INC) $(PATH_INC_UTIL) $(PATH_INC_SERVICE) $(PATH_INC_WORKER) $(PATH_INC_PIPE)
 
 OBJS_MAIN = main.o utilities_calculator_engine.o log.o\
 	csv_reader.o file_service.o building.o table.o worker.o\
+	bills_worker.o buildings_worker.o\
+	named_pipe.o unnamed_pipe.o\
 
 OUT_MAIN = main
 
@@ -30,7 +36,19 @@ $(PATH_OBJ)/main.o: main.cpp
 $(PATH_OBJ)/utilities_calculator_engine.o: utilities_calculator_engine.cpp utilities_calculator_engine.hpp	
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+$(PATH_OBJ)/buildings_worker.o: buildings_worker.cpp buildings_worker.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(PATH_OBJ)/bills_worker.o: bills_worker.cpp bills_worker.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
 $(PATH_OBJ)/worker.o: worker.cpp worker.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(PATH_OBJ)/named_pipe.o: named_pipe.cpp named_pipe.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(PATH_OBJ)/unnamed_pipe.o: named_pipe.cpp named_pipe.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(PATH_OBJ)/building.o: building.cpp building.hpp

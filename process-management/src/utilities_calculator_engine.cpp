@@ -42,10 +42,36 @@ void UtilitiesCalculatorEngine::printBuildings()
     delete table;
 }
 
+int UtilitiesCalculatorEngine::runWorkers()
+{
+    pid_t billsWorkerPid = fork();
+
+    if (billsWorkerPid < 0) {
+        Log::error("failed to created bills worker");
+        return EXIT_FAILURE;
+    } else if (billsWorkerPid > 0) {
+        Log::info("bills worker is created");
+    }
+
+    for(int i = 0; i < this->buildings.size(); i++) {
+        pid_t buildingWorker = fork();
+
+        if (buildingWorker < 0) {
+            Log::error("failed to create buildingn %d worker", i);
+            return EXIT_FAILURE;
+        } else if (buildingWorker > 0) {
+            Log::info("building %d process is created", i);
+        }
+    }    
+
+    return EXIT_SUCCESS;
+}
+
 int UtilitiesCalculatorEngine::run()
 {
     Log::info("utilities calculator engine is started");
     Log::info("reading building path file");
     this->printBuildings();
+    this->runWorkers();
     return EXIT_SUCCESS;
 }

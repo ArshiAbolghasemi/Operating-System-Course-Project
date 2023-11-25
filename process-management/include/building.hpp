@@ -10,7 +10,6 @@ private:
 public:
     Building(std::string _dataPath);
     ~Building();
-
     std::string getName();
 };
 
