@@ -26,7 +26,7 @@ UtilitiesCalculatorEngine::~UtilitiesCalculatorEngine()
 void UtilitiesCalculatorEngine::printBuildings()
 {
     Log::info("buildings count: %d", this->buildingsCount);
-    
+
     Table* table = new Table();
     table->setColumns({"id", "building_name"});
     std::map<int, std::map<std::string, std::string>> rows;
@@ -39,6 +39,7 @@ void UtilitiesCalculatorEngine::printBuildings()
     table->addRows(rows);
     std::cout << std::endl << std::endl;
     table->print();
+    std::cout << std::endl << std::endl;
     delete table;
 }
 
