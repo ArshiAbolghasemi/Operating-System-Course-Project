@@ -1,5 +1,5 @@
-#ifndef _UNNAMED_PIPE_HPP_
-#define _UNNAMED_PIPE_HPP_
+#ifndef _NAMED_PIPE_HPP_
+#define _NAMED_PIPE_HPP_
 
 #include <fcntl.h>
 #include <sys/stat.h>
