@@ -14,4 +14,11 @@ namespace colors
     inline std::string CYAN = isatty(fileno(stdout)) ? "\033[36m" : "";
 }
 
+class Color
+{
+private:
+public:
+    static std::string color(std::string text, std::string color);
+};
+
 #endif
