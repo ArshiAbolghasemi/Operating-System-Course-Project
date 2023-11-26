@@ -13,7 +13,7 @@ PATH_INC_WORKER = $(PATH_INC)/worker
 PATH_INC_PIPE = $(PATH_INC)/pipe
 PATH_OBJ = ./obj
 
-vpath %.cpp $(PATH_SRC) $(PATH_SRC_UTIL) $(PATH_SRC_SERVICE) $(PATH_SRC_SERVICE) $(PATH_SRC_PIPE)
+vpath %.cpp $(PATH_SRC) $(PATH_SRC_UTIL) $(PATH_SRC_SERVICE) $(PATH_SRC_WORKER) $(PATH_SRC_PIPE)
 vpath %.hpp $(PATH_INC) $(PATH_INC_UTIL) $(PATH_INC_SERVICE) $(PATH_INC_WORKER) $(PATH_INC_PIPE)
 
 OBJS_MAIN = main.o utilities_calculator_engine.o log.o\
@@ -58,6 +58,9 @@ $(PATH_OBJ)/file_service.o: file_service.cpp file_service.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(PATH_OBJ)/csv_reader.o: csv_reader.cpp csv_reader.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(PATH_OBJ)/cli.o: cli.cpp cli.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(PATH_OBJ)/log.o: log.cpp log.hpp
