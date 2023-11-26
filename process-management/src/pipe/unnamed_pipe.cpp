@@ -6,6 +6,7 @@ UnnamedPipe::UnnamedPipe()
         Log::error("failed to create named pipe");  
         throw new std::runtime_error("failed to create named pipe"); 
     }
+    Log::info("unnamed pipe is created successfully");
 }
 
 UnnamedPipe::~UnnamedPipe() {}

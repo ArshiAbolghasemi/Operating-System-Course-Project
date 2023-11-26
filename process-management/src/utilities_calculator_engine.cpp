@@ -42,27 +42,92 @@ void UtilitiesCalculatorEngine::printBuildings()
     delete table;
 }
 
-int UtilitiesCalculatorEngine::runWorkers()
+std::vector<std::string> UtilitiesCalculatorEngine::getBuildingsFromUser()
 {
-    pid_t billsWorkerPid = fork();
+    std::cout << "Enter comma-seperated buildings name: ";
+    std::vector<std::string> input_buildings = CLI::getCommaSeperatedInput();
+    return input_buildings;
+}
 
-    if (billsWorkerPid < 0) {
-        Log::error("failed to created bills worker");
-        return EXIT_FAILURE;
-    } else if (billsWorkerPid > 0) {
-        Log::info("bills worker is created");
+std::vector<std::string> UtilitiesCalculatorEngine::getUtilitiesFromUser()
+{
+    std::cout << "Enter comma-seperated utilities: ";
+    std::vector<std::string> input_utilities = CLI::getCommaSeperatedInput();
+    return input_utilities;
+}
+
+std::vector<NamedPipe*> UtilitiesCalculatorEngine::createNamedPipes(std::vector<std::string> buildingNames)
+{
+    std::vector<NamedPipe*> namedPipes;
+    for (auto name : buildingNames) {
+        std::string fifoPath = "/tmp/" + name;
+        namedPipes.push_back(new NamedPipe(fifoPath, 0666));
     }
+    
+    return namedPipes;
+}
 
-    for(int i = 0; i < this->buildings.size(); i++) {
+std::vector<UnnamedPipe*> UtilitiesCalculatorEngine::createUnnamedPipes(int inputBuildingsCnt)
+{
+    std::vector<UnnamedPipe*> unnamedPipes;
+    while (inputBuildingsCnt--) {
+        unnamedPipes.push_back(new UnnamedPipe());
+    }
+    unnamedPipes.push_back(new UnnamedPipe());
+
+    return unnamedPipes;
+}
+
+int UtilitiesCalculatorEngine::runWorkers(std::vector<std::string> inputBuildings,
+    std::vector<std::string> inputUtilities)
+{
+    std::cout << std::endl;
+    std::vector<Worker*> workers;
+
+    int inputBuildingsCnt = inputBuildings.size();
+    std::vector<NamedPipe*> namedPipes = this->createNamedPipes(inputBuildings);
+    std::vector<UnnamedPipe*> unnamedPipes = this->createUnnamedPipes(inputBuildingsCnt); 
+    std::vector<NamedPipe*> copyNamedPipes = namedPipes;
+
+    for(int bid = 0; bid < this->buildings.size(); bid++) {
+        auto it = std::find(inputBuildings.begin(), inputBuildings.end(),
+            this->buildings[bid]->getName());
+        if (it == inputBuildings.end()) continue;
+
         pid_t buildingWorker = fork();
 
         if (buildingWorker < 0) {
-            Log::error("failed to create buildingn %d worker", i);
+            Log::error("failed to create building %s worker", this->buildings[bid]->getName());
             return EXIT_FAILURE;
-        } else if (buildingWorker > 0) {
-            Log::info("building %d process is created", i);
+        } else if (buildingWorker == 0) {
+            NamedPipe* namedPipe = copyNamedPipes.back();
+            copyNamedPipes.pop_back();
+            UnnamedPipe* unnamedPipe = unnamedPipes.back();
+            unnamedPipes.pop_back();
+            Worker* worker = new BuildingsWorker(getpid(), this->buildings[bid]->getName(), bid,
+                namedPipe, unnamedPipe);
+            workers.push_back(worker);    
+            Log::info("process %d is created for building %s worker", 
+                getpid(), this->buildings[bid]->getName().c_str());
+            return worker->execute();
         }
     }    
+
+    pid_t billsWorkerPid = fork();
+    if (billsWorkerPid < 0) {
+        Log::error("failed to created bills worker");
+        return EXIT_FAILURE;
+    } else if (billsWorkerPid == 0) {
+        UnnamedPipe* unnamedPipe = unnamedPipes.back();
+        unnamedPipes.pop_back();
+        Worker* worker = new BillsWorker(getpid(), "bills", inputUtilities, namedPipes, unnamedPipe);
+        workers.push_back(worker);
+        Log::info("process %d is created for bills worker", getpid());
+        return worker->execute();
+    }
+
+    for (auto worker : workers) 
+        waitpid(worker->getPID(), NULL, 0);
 
     return EXIT_SUCCESS;
 }
@@ -72,6 +137,8 @@ int UtilitiesCalculatorEngine::run()
     Log::info("utilities calculator engine is started");
     Log::info("reading building path file");
     this->printBuildings();
-    this->runWorkers();
+    std::vector<std::string> input_buildings = this->getBuildingsFromUser();
+    std::vector<std::string> input_utilities = this->getUtilitiesFromUser();
+    this->runWorkers(input_buildings, input_utilities);
     return EXIT_SUCCESS;
 }

@@ -19,8 +19,11 @@
 #include "./building.hpp"
 #include "./util/table.hpp"
 #include "./worker/worker.hpp"
-#include "./worker/bills_wroker.hpp"
+#include "./worker/bills_worker.hpp"
 #include "./worker/buildings_worker.hpp"
+#include "./util/cli.hpp"
+#include "./pipe/named_pipe.hpp"
+#include "./pipe/unnamed_pipe.hpp"
 
 class UtilitiesCalculatorEngine
 {
@@ -28,11 +31,16 @@ private:
     std::string buildingsDataPath;
     int buildingsCount;
     std::vector<Building*> buildings;
+
+    void printBuildings();
+    std::vector<std::string> getBuildingsFromUser();
+    std::vector<std::string> getUtilitiesFromUser();
+    std::vector<NamedPipe*> createNamedPipes(std::vector<std::string> buildingNames);
+    std::vector<UnnamedPipe*> createUnnamedPipes(int inputBuildingsCnt);
+    int runWorkers(std::vector<std::string> inputBuildings, std::vector<std::string> inputUtilities);
 public:
     UtilitiesCalculatorEngine(int argc, char* argv[]);
     ~UtilitiesCalculatorEngine();
-    void printBuildings();
-    int runWorkers();
     int run();
 };
 

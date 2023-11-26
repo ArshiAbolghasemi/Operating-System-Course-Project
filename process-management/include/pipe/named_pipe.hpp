@@ -4,14 +4,16 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <string>
+#include "../util/log.hpp"
 
 class NamedPipe
 {
 private:
-    const char* fifoPath;
+    std::string fifoPath;
     mode_t mode;
 public:
-    NamedPipe(const char* _fifoPath, mode_t __mode_t);
+    NamedPipe(std::string _fifoPath, mode_t __mode_t);
     ~NamedPipe();
 };
 
