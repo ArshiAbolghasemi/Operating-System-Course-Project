@@ -6,18 +6,17 @@
 #include <string.h>
 #include <unistd.h>
 #include <string>
+#include "../util/log.hpp"
 
 class Worker
 {
-private:
+protected:
     pid_t pid;
     std::string name;
 public:
     Worker(pid_t _pid, std::string _name);
     ~Worker();
-
     pid_t getPID();
-
     virtual int execute() = 0;
 };
 
