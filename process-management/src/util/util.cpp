@@ -5,10 +5,10 @@ std::vector<std::map<T, V>> Util::mapChunk(const std::map<T, V>& map, int chunkS
 {
     std::vector<std::map<T, V>> result;
 
-    auto it = inputMap.begin();
-    while (it != inputMap.end()) {
+    auto it = map.begin();
+    while (it != map.end()) {
         std::map<T, V> chunk;
-        for (std::size_t i = 0; i < chunkSize && it != inputMap.end(); ++i, ++it) {
+        for (std::size_t i = 0; i < chunkSize && it != map.end(); ++i, ++it) {
             chunk.insert(*it);
         }
         result.push_back(chunk);
