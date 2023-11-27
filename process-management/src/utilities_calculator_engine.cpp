@@ -97,7 +97,8 @@ int UtilitiesCalculatorEngine::runWorkers(std::vector<std::string> inputBuilding
         pid_t buildingWorker = fork();
 
         if (buildingWorker < 0) {
-            Log::error("failed to create building %s worker", this->buildings[bid]->getName());
+            Log::error("failed to create building %s worker",
+                Color::color(this->buildings[bid]->getName(), colors::Red).c_str());
             return EXIT_FAILURE;
         } else if (buildingWorker == 0) {
             NamedPipe* namedPipe = copyNamedPipes.back();
@@ -105,11 +106,13 @@ int UtilitiesCalculatorEngine::runWorkers(std::vector<std::string> inputBuilding
             UnnamedPipe* unnamedPipe = unnamedPipes.back();
             unnamedPipes.pop_back();
             Worker* worker = new BuildingsWorker(getpid(), this->buildings[bid]->getName(), bid,
-                namedPipe, unnamedPipe);
+                namedPipe, unnamedPipe, inputUtilities, this->buildingsDataPath);
             workers.push_back(worker);    
-            Log::info("process %d is created for building %s worker", 
-                getpid(), this->buildings[bid]->getName().c_str());
-            return worker->execute();
+            Log::info("process %s is created for building %s worker", 
+                Color::color(std::to_string(getpid()), colors::CYAN).c_str(),
+                Color::color(this->buildings[bid]->getName(), colors::CYAN).c_str());
+            worker->execute();
+            return EXIT_SUCCESS;
         }
     }    
 
@@ -117,13 +120,15 @@ int UtilitiesCalculatorEngine::runWorkers(std::vector<std::string> inputBuilding
     if (billsWorkerPid < 0) {
         Log::error("failed to created bills worker");
         return EXIT_FAILURE;
-    } else if (billsWorkerPid == 0) {
+    } else if (billsWorkerPid > 0) {
         UnnamedPipe* unnamedPipe = unnamedPipes.back();
         unnamedPipes.pop_back();
         Worker* worker = new BillsWorker(getpid(), "bills", inputUtilities, namedPipes, unnamedPipe);
         workers.push_back(worker);
-        Log::info("process %d is created for bills worker", getpid());
-        return worker->execute();
+        Log::info("process %s is created for bills worker", 
+            Color::color(std::to_string(getpid()), colors::CYAN).c_str());
+        worker->execute();
+        return EXIT_SUCCESS;
     }
 
     for (auto worker : workers) 

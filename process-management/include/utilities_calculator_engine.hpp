@@ -24,6 +24,7 @@
 #include "./util/cli.hpp"
 #include "./pipe/named_pipe.hpp"
 #include "./pipe/unnamed_pipe.hpp"
+#include "./util/colors.hpp"
 
 class UtilitiesCalculatorEngine
 {

@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <string>
 #include "../util/log.hpp"
+#include "../util/colors.hpp"
 
 class NamedPipe
 {
