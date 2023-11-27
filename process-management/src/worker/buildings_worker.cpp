@@ -12,32 +12,7 @@ BuildingsWorker::BuildingsWorker(pid_t _pid, std::string _name, int _bid,
     this->buildingsDataFilePath = _buildingsDataFilePath;
 }
 
-BuildingsWorker::~BuildingsWorker() {}
-
-// std::map<std::string, float> BuildingsWorker::calculateUtilityConsumptionMonthStatistic(
-//         const std::map<int, std::map<std::string, std::string>>& utilityMonthConsumption,
-//         std::string utility)
-// {
-//     std::map<std::string, float> result;
-//     std::map<std::string, int> allConsumptionsPerHour;
-//     int allConsumption = 0;
-//     float mean;
-    
-//     for (auto dailyConsumption : utilityMonthConsumption) {
-//         for (auto hourConsumptions : Util::mapSlice(dailyConsumption.second, 4, 6)) {
-//             allConsumption += std::stoi(hourConsumptions.second);
-//             if (allConsumptionsPerHour.find(hourConsumptions.first) != allConsumptionsPerHour.end()) {
-//                 allConsumptionsPerHour[hourConsumptions.first] += std::stoi(hourConsumptions.second);
-//             } else {
-//                 allConsumptionsPerHour[hourConsumptions.first] = std::stoi(hourConsumptions.second);
-//             }
-//         }   
-//     }
-
-//     mean = (float)allConsumption / (float)MONTH_DAYS;
-
-//     return result;
-// }        
+BuildingsWorker::~BuildingsWorker() {}    
 
 int BuildingsWorker::execute()
 {

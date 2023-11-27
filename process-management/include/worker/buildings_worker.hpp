@@ -27,9 +27,6 @@ public:
         NamedPipe* _namedPipe, UnnamedPipe* _unnamedPipe,
         std::vector<std::string> _utilities, std::string _buildingFilePath);
     ~BuildingsWorker();
-    // std::map<std::string, float> calculateUtilityConsumptionMonthStatistic(
-    //     const std::map<int, std::map<std::string, std::string>>& utilityMonthConsumption,
-    //     std::string utility);
     virtual int execute() override;
 };
 
