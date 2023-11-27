@@ -9,6 +9,8 @@
 #include <string>
 #include "../util/log.hpp"
 
+const std::string CSV_EXTENSION = ".csv";
+
 class CSVReader
 {
 private:
