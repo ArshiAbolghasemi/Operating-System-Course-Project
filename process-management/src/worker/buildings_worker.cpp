@@ -69,10 +69,10 @@ int BuildingsWorker::execute()
             worker->execute();
             return EXIT_SUCCESS;
         }
+    }
 
-        for (auto utilityWorker : utilityWorkers) {
-            waitpid(utilityWorker->getPID(), NULL, 0);
-        }
+    for (auto utilityWorker : utilityWorkers) {
+        waitpid(utilityWorker->getPID(), NULL, 0);
     }
     
     return EXIT_SUCCESS;
