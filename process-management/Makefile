@@ -20,7 +20,7 @@ OBJS_MAIN = main.o utilities_calculator_engine.o log.o\
 	csv_reader.o file_service.o building.o table.o worker.o\
 	bills_worker.o buildings_worker.o\
 	named_pipe.o unnamed_pipe.o cli.o\
-	colors.o\
+	colors.o util.o\
 
 OUT_MAIN = main
 
@@ -65,6 +65,9 @@ $(PATH_OBJ)/cli.o: cli.cpp cli.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(PATH_OBJ)/log.o: log.cpp log.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(PATH_OBJ)/util.o: util.cpp util.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(PATH_OBJ)/table.o: table.cpp table.hpp
