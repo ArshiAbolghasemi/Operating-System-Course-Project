@@ -19,7 +19,7 @@ vpath %.hpp $(PATH_INC) $(PATH_INC_UTIL) $(PATH_INC_SERVICE) $(PATH_INC_WORKER) 
 
 OBJS_MAIN = main.o utilities_calculator_engine.o log.o\
 	csv_reader.o file_service.o building.o table.o worker.o\
-	bills_worker.o buildings_worker.o\
+	bills_worker.o buildings_worker.o utility_worker.0\
 	named_pipe.o unnamed_pipe.o cli.o\
 	colors.o util.o\
 
@@ -42,6 +42,9 @@ $(PATH_OBJ)/buildings_worker.o: buildings_worker.cpp buildings_worker.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(PATH_OBJ)/bills_worker.o: bills_worker.cpp bills_worker.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(PATH_UTILITY_WORKER)/utility_worker.o: utility_worker.cpp utility_worker.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(PATH_OBJ)/worker.o: worker.cpp worker.hpp
