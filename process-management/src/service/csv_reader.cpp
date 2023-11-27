@@ -6,7 +6,7 @@ std::map<int, std::map<std::string, std::string>>
     std::ifstream file(filePath);
 
     if (!file.is_open()) {
-        Log::error("cannot open %s!", filePath);
+        Log::error("cannot open %s!", filePath.c_str());
         throw new std::runtime_error("failed to open file");
     }
 
