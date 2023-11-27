@@ -11,10 +11,11 @@ PATH_INC_UTIL = $(PATH_INC)/util
 PATH_INC_SERVICE = $(PATH_INC)/service
 PATH_INC_WORKER = $(PATH_INC)/worker
 PATH_INC_PIPE = $(PATH_INC)/pipe
+PATH_INC_ENUMS = $(PATH_INC)/enums
 PATH_OBJ = ./obj
 
 vpath %.cpp $(PATH_SRC) $(PATH_SRC_UTIL) $(PATH_SRC_SERVICE) $(PATH_SRC_WORKER) $(PATH_SRC_PIPE)
-vpath %.hpp $(PATH_INC) $(PATH_INC_UTIL) $(PATH_INC_SERVICE) $(PATH_INC_WORKER) $(PATH_INC_PIPE)
+vpath %.hpp $(PATH_INC) $(PATH_INC_UTIL) $(PATH_INC_SERVICE) $(PATH_INC_WORKER) $(PATH_INC_PIPE) $(PATH_INC_ENUMS)
 
 OBJS_MAIN = main.o utilities_calculator_engine.o log.o\
 	csv_reader.o file_service.o building.o table.o worker.o\
