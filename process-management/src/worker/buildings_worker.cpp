@@ -22,7 +22,7 @@ int BuildingsWorker::execute()
     
     std::vector<UtilityWorker*> utilityWorkers;
     std::string buildingFilePath = this->buildingsDataFilePath + this->name;
-    std::vector<NamedPipe*> utilityWorkersNamedPipes;
+    std::vector<UnnamedPipe*> utilityWorkersUnamedPipes;
     for(auto utility : this->utilities) {
         pid_t pid = fork();
         if (pid < 0) {
@@ -32,8 +32,8 @@ int BuildingsWorker::execute()
             );
             throw new std::runtime_error("failed to create process");
         } else if (pid > 0) {
-            NamedPipe* pipe = new NamedPipe("/tmp/" + this->name + '_' + utility, 0666);
-            utilityWorkersNamedPipes.push_back(namedPipe);
+            UnnamedPipe* pipe = new UnnamedPipe();
+            utilityWorkersUnamedPipes.push_back(pipe);
             UtilityWorker* worker = new UtilityWorker(pid, utility,
                 buildingFilePath, pipe);
             utilityWorkers.push_back(worker);    
