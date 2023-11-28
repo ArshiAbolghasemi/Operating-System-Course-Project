@@ -41,7 +41,7 @@ int BuildingsWorker::execute()
                 Color::color(utility, colors::CYAN).c_str(),
                 Color::color(std::to_string((int)pid), colors::CYAN).c_str(),
                 Color::color(this->name, colors::CYAN).c_str());
-            worker->execute();
+            if (worker->execute() < 0) throw new std::runtime_error("utilit process failed");
             return EXIT_SUCCESS;
         }
     }
