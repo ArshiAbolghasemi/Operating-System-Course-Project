@@ -14,6 +14,9 @@ public:
     UtilityWorker(pid_t _pid, std::string _name,
         std::string _filePath, NamedPipe* _nmaedPipe);
     ~UtilityWorker();
+        // std::map<std::string, float> calculateUtilityConsumptionMonthStatistic(
+    //     const std::map<int, std::map<std::string, std::string>>& utilityMonthConsumption,
+    //     std::string utility);
     virtual int execute() override;
 };
 
