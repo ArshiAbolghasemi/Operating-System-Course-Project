@@ -111,7 +111,7 @@ int UtilitiesCalculatorEngine::runWorkers(std::vector<std::string> inputBuilding
             Log::info("process %s is created for building %s worker", 
                 Color::color(std::to_string(getpid()), colors::CYAN).c_str(),
                 Color::color(this->buildings[bid]->getName(), colors::CYAN).c_str());
-            worker->execute();
+            if (worker->execute() < 0) throw new std::runtime_error("buildings process failed");
             return EXIT_SUCCESS;
         }
     }    
@@ -127,7 +127,7 @@ int UtilitiesCalculatorEngine::runWorkers(std::vector<std::string> inputBuilding
         workers.push_back(worker);
         Log::info("process %s is created for bills worker", 
             Color::color(std::to_string(getpid()), colors::CYAN).c_str());
-        worker->execute();
+        if (worker->execute() < 0) throw new std::runtime_error("bills process failed");
         return EXIT_SUCCESS;
     }
 
