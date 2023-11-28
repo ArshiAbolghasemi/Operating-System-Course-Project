@@ -34,7 +34,7 @@ int BuildingsWorker::execute()
         } else if (pid > 0) {
             NamedPipe* pipe = new NamedPipe("/tmp/" + this->name + '_' + utility, 0666);
             utilityWorkersNamedPipes.push_back(namedPipe);
-            UtilityWorker* worker = new UtilityWorker(pid, buildingFilePath,
+            UtilityWorker* worker = new UtilityWorker(pid, utility,
                 buildingFilePath, pipe);
             utilityWorkers.push_back(worker);    
             Log::info("create utility %s process with pid %s for building %s",
