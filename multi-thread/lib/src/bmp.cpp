@@ -4,7 +4,7 @@
 
 BMP::BMP(const std::string& fileName)
 {
-    std::ifstream file(fileName);
+    std::ifstream file(fileName, std::ios::binary);
     if (!file || !file.is_open()) {
         throw new std::runtime_error("Failed to open " + fileName + "!");
     }
@@ -61,4 +61,26 @@ Pixel& BMP::operator()(int r, int c)
 Pixel BMP::operator()(int r, int c) const
 {
     return this->pixels[r * this->infoHeader->width + c];
+}
+
+size_t BMP::getHeight()
+{
+    return this->infoHeader->height;
+}
+
+size_t BMP::getWidth()
+{
+    return this->infoHeader->width;
+}
+
+void BMP::save(const std::string& fileName)
+{
+    std::ofstream outputFile(fileName, std::ios::binary);
+    if (!outputFile || outputFile.is_open()) {
+        throw new std::runtime_error("Failed to open " + fileName + "!");
+    }
+
+    outputFile.write(reinterpret_cast<const char*>(this->header), sizeof(BMPHeader));
+    outputFile.write(reinterpret_cast<const char*>(this->infoHeader), sizeof(BMPInfoHeader));
+    outputFile.write(reinterpret_cast<const char*>(this->pixels), this->infoHeader->imageSize);
 }

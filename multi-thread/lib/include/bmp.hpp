@@ -19,12 +19,17 @@ private:
     void loadFile();
     void loadHeaders();
     void loadPixels();
-
-    Pixel& operator()(int r, int c);
-    Pixel operator()(int r, int c) const;
 public:
     explicit BMP(const std::string& fileName);
     ~BMP();
+
+    Pixel& operator()(int r, int c);
+    Pixel operator()(int r, int c) const;
+
+    size_t getHeight();
+    size_t getWidth();
+
+    void save(const std::string& fileName);
 };
 
 #endif
