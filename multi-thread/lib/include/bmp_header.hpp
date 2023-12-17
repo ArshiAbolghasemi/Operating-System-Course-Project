@@ -7,6 +7,8 @@
 
 constexpr uint16_t BMP_SIGNATURE = 0x4D42; // "BMP"
 
+constexpr uint NUMBER_OF_BITS_PER_PIXEL = 24;
+
 struct BMPHeader
 {
     uint16_t signature;  // "BMP"
