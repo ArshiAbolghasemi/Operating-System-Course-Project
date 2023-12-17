@@ -19,9 +19,7 @@ BMP::~BMP()
     delete this->header;
     delete this->infoHeader;
     delete this->file;
-    for (auto pixel : this->pixels) {
-        delete pixel;
-    }
+    delete[] this->pixels;
 }
 
 void BMP::loadHeaders()
@@ -45,12 +43,22 @@ void BMP::loadHeaders()
 void BMP::loadPixels()
 {
     std::size_t pixelDataSize = this->infoHeader->width * this->infoHeader->height;
-    this->pixels.resize(pixelDataSize);
-    this->file->read(reinterpret_cast<char*>(pixels.data()), pixelDataSize * sizeof(Pixel));
+    this->pixels = new Pixel[pixelDataSize];
+    this->file->read(reinterpret_cast<char*>(this->pixels), this->infoHeader->imageSize);
 }
 
 void BMP::loadFile()
 {
     this->loadHeaders();
     this->loadPixels();
+}
+
+Pixel& BMP::operator()(int r, int c)
+{
+    return this->pixels[r * this->infoHeader->width + c];
+}
+
+Pixel BMP::operator()(int r, int c) const
+{
+    return this->pixels[r * this->infoHeader->width + c];
 }

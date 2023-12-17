@@ -4,7 +4,6 @@
 #include <string>
 #include <fstream>
 #include <exception>
-#include <vector>
 
 #include "bmp_header.hpp"
 #include "pixel.hpp"
@@ -15,11 +14,14 @@ private:
     std::ifstream* file;
     BMPHeader* header;
     BMPInfoHeader* infoHeader;
-    std::vector<Pixel*> pixels;
+    Pixel* pixels;
 
     void loadFile();
     void loadHeaders();
     void loadPixels();
+
+    Pixel& operator()(int r, int c);
+    Pixel operator()(int r, int c) const;
 public:
     explicit BMP(const std::string& fileName);
     ~BMP();
