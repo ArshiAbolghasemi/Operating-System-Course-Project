@@ -21,7 +21,7 @@ template <typename T, typename V>
 std::map<T, V> Util::mapSlice(const std::map<T, V>& map, int offset, int limit)
 {
     auto it = map.begin();
-    while (--offset) ++it;
+    while (offset--) ++it;
 
     std::map<T, V> result;
     int cnt = 0;

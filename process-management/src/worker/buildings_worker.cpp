@@ -35,7 +35,7 @@ int BuildingsWorker::execute()
             UnnamedPipe* pipe = new UnnamedPipe();
             utilityWorkersUnamedPipes.push_back(pipe);
             UtilityWorker* worker = new UtilityWorker(pid, utility,
-                buildingFilePath, pipe);
+                buildingFilePath + '/' + utility + CSV_EXTENSION, pipe);
             utilityWorkers.push_back(worker);    
             Log::info("create utility %s process with pid %s for building %s",
                 Color::color(utility, colors::CYAN).c_str(),
@@ -46,8 +46,9 @@ int BuildingsWorker::execute()
         }
     }
 
-    for (auto utilityWorker : utilityWorkers) {
-        waitpid(utilityWorker->getPID(), NULL, 0);
+    for (auto utility : this->utilities) {
+        Log::warn("wait");
+        wait(NULL);
     }
     
     return EXIT_SUCCESS;
