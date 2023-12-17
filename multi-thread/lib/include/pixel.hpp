@@ -4,7 +4,7 @@
 #include <cstdint>
 
 #pragma pack(push, 1)
-struct pixel
+struct Pixel
 {
     uint8_t red;
     uint8_t green;
