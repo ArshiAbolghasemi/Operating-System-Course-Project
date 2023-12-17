@@ -22,19 +22,13 @@ BMP::~BMP()
 
 void BMP::loadFile()
 {
-    this->file->seekg(0, std::ios::end);
-    std::streampos length = this->file->tellg();
-    this->file->seekg(0, std::ios::beg);
-
-    this->fileBuffer = new char[length];
-    this->file->read(&this->fileBuffer[0], length);
-
-    this->header = (BMPHeader*)(&this->fileBuffer[0]);
+    this->file->read(reinterpret_cast<char*>(&this->header), sizeof(BMPHeader));
     if (this->header->signature != BMP_SIGNATURE) {
         throw std::runtime_error("Invalid BMP file");
     }
 
-    this->infoHeader = (BMPInfoHeader*)(&this->fileBuffer[0] + sizeof(BMPInfoHeader));
+    this->file->read(reinterpret_cast<char*>(&this->infoHeader), sizeof(BMPInfoHeader));
+
     if (this->infoHeader->bitsPerPixel != NUMBER_OF_BITS_PER_PIXEL) {
         char errMsg[40];
         sprintf(errMsg, "Only %d-bit BMP files are supported!", NUMBER_OF_BITS_PER_PIXEL);
