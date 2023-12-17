@@ -11,6 +11,7 @@ class BMP
 {
 private:
     std::ifstream* file;
+    char* fileBuffer;
     BMPHeader* header;
     BMPInfoHeader* infoHeader;
 
