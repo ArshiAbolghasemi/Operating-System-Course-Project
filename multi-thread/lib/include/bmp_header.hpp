@@ -9,7 +9,7 @@ constexpr uint16_t BMP_SIGNATURE = 0x4D42; // "BMP"
 
 constexpr uint NUMBER_OF_BITS_PER_PIXEL = 24;
 
-struct BMPHeader
+struct BMPFileHeader
 {
     uint16_t signature;  // "BMP"
     uint32_t fileSize;   // size of the BMP file in bytes

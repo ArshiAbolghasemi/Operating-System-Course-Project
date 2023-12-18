@@ -13,7 +13,7 @@ class BMP
 private:
     std::ifstream* inputFile;
     std::ofstream* outputFile;
-    BMPHeader* header;
+    BMPFileHeader* fileHeader;
     BMPInfoHeader* infoHeader;
     Pixel* pixels;
 

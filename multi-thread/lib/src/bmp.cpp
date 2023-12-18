@@ -16,7 +16,7 @@ BMP::BMP(const std::string& fileName)
 
 BMP::~BMP() 
 {
-    delete this->header;
+    delete this->fileHeader;
     delete this->infoHeader;
     delete this->inputFile;
     delete this->outputFile;
@@ -25,9 +25,9 @@ BMP::~BMP()
 
 void BMP::loadHeaders()
 {
-    this->header = new BMPHeader;
-    this->inputFile->read(reinterpret_cast<char*>(this->header), sizeof(BMPHeader));
-    if (this->header->signature != BMP_SIGNATURE) {
+    this->fileHeader = new BMPFileHeader;
+    this->inputFile->read(reinterpret_cast<char*>(this->fileHeader), sizeof(BMPFileHeader));
+    if (this->fileHeader->signature != BMP_SIGNATURE) {
         throw std::runtime_error("Invalid BMP file");
     }
 
@@ -81,7 +81,7 @@ void BMP::save(const std::string& fileName)
         throw new std::runtime_error("Failed to open " + fileName + "!");
     }
 
-    outputFile.write(reinterpret_cast<const char*>(this->header), sizeof(BMPHeader));
+    outputFile.write(reinterpret_cast<const char*>(this->fileHeader), sizeof(BMPFileHeader));
     outputFile.write(reinterpret_cast<const char*>(this->infoHeader), sizeof(BMPInfoHeader));
     outputFile.write(reinterpret_cast<const char*>(this->pixels), this->infoHeader->imageSize);
 
