@@ -9,69 +9,87 @@ BMP::BMP(const std::string& fileName)
         throw new std::runtime_error("Failed to open " + fileName + "!");
     }
 
-    this->inputFile = &file;
-    this->loadFile();
-    this->inputFile->close();
+    this->loadFile(file);
+    file.close();
 }
 
 BMP::~BMP() 
 {
-    delete this->fileHeader;
-    delete this->infoHeader;
-    delete this->inputFile;
-    delete this->outputFile;
     delete[] this->pixels;
 }
 
-void BMP::loadHeaders()
+BMP::BMP(const BMP& bmp)
 {
-    this->fileHeader = new BMPFileHeader;
-    this->inputFile->read(reinterpret_cast<char*>(this->fileHeader), sizeof(BMPFileHeader));
-    if (this->fileHeader->signature != BMP_SIGNATURE) {
+    this->fileHeader = bmp.fileHeader;
+    this->infoHeader = bmp.infoHeader;
+    this->pixels = new Pixel[this->infoHeader.width * this->infoHeader.height];
+    std::copy(bmp.pixels, bmp.pixels + this->infoHeader.width * this->infoHeader.height, 
+        this->pixels);
+}
+
+BMP& BMP::operator=(const BMP& bmp)
+{
+    if (this == &bmp) return *this;
+    
+    delete[] this->pixels;
+
+    this->fileHeader = bmp.fileHeader;
+    this->infoHeader = bmp.infoHeader;
+    this->pixels = new Pixel[this->infoHeader.width * this->infoHeader.height];
+    std::copy(bmp.pixels, bmp.pixels + this->infoHeader.width * this->infoHeader.height, 
+        this->pixels);
+        
+    return *this;
+}
+
+Pixel& BMP::operator()(int row, int col)
+{
+    return this->pixels[row * this->getWidth() + col];
+}
+
+Pixel BMP::operator()(int row, int col) const
+{
+    return this->pixels[row * this->infoHeader.width + col];
+}
+
+size_t BMP::getHeight() { return this->infoHeader.height; }
+
+size_t BMP::getWidth() { return this->infoHeader.width; }
+
+void BMP::loadHeaders(std::ifstream& file)
+{
+    file.read(reinterpret_cast<char*>(&this->fileHeader), sizeof(BMPFileHeader));
+    if (this->fileHeader.signature != BMP_SIGNATURE) {
         throw std::runtime_error("Invalid BMP file");
     }
 
-    this->infoHeader = new BMPInfoHeader;
-    this->inputFile->read(reinterpret_cast<char*>(this->infoHeader), sizeof(BMPInfoHeader));
+    file.read(reinterpret_cast<char*>(&this->infoHeader), sizeof(BMPInfoHeader));
 
-    if (this->infoHeader->bitsPerPixel != NUMBER_OF_BITS_PER_PIXEL) {
+    if (this->infoHeader.bitsPerPixel != NUMBER_OF_BITS_PER_PIXEL) {
         char errMsg[40];
         sprintf(errMsg, "Only %d-bit BMP files are supported!", NUMBER_OF_BITS_PER_PIXEL);
         throw std::runtime_error(errMsg);
     }
 }
 
-void BMP::loadPixels()
+void BMP::loadPixels(std::ifstream& file)
 {
-    std::size_t pixelDataSize = this->infoHeader->width * this->infoHeader->height;
+    std::size_t pixelDataSize = this->infoHeader.width * this->infoHeader.height;
     this->pixels = new Pixel[pixelDataSize];
-    this->inputFile->read(reinterpret_cast<char*>(this->pixels), this->infoHeader->imageSize);
+    file.seekg(this->fileHeader.dataOffset);
+    int padding = static_cast<int>(4 - (this->infoHeader.width * sizeof(Pixel)) % 4) % 4;
+    for (int y = this->infoHeader.height - 1; y >= 0; --y) {
+        file.read(
+            reinterpret_cast<char*>(this->pixels + y * this->infoHeader.width),
+            static_cast<std::streamsize >(this->infoHeader.width * sizeof(Pixel)));
+        file.seekg(padding, std::ios::cur);
+    }
 }
 
-void BMP::loadFile()
+void BMP::loadFile(std::ifstream& file)
 {
-    this->loadHeaders();
-    this->loadPixels();
-}
-
-Pixel& BMP::operator()(int r, int c)
-{
-    return this->pixels[r * this->infoHeader->width + c];
-}
-
-Pixel BMP::operator()(int r, int c) const
-{
-    return this->pixels[r * this->infoHeader->width + c];
-}
-
-size_t BMP::getHeight()
-{
-    return this->infoHeader->height;
-}
-
-size_t BMP::getWidth()
-{
-    return this->infoHeader->width;
+    this->loadHeaders(file);
+    this->loadPixels(file);
 }
 
 void BMP::save(const std::string& fileName)
@@ -81,10 +99,14 @@ void BMP::save(const std::string& fileName)
         throw new std::runtime_error("Failed to open " + fileName + "!");
     }
 
-    outputFile.write(reinterpret_cast<const char*>(this->fileHeader), sizeof(BMPFileHeader));
-    outputFile.write(reinterpret_cast<const char*>(this->infoHeader), sizeof(BMPInfoHeader));
-    outputFile.write(reinterpret_cast<const char*>(this->pixels), this->infoHeader->imageSize);
-
-    this->outputFile = &outputFile;
-    this->outputFile->close();
+    outputFile.write(reinterpret_cast<char*>(&this->fileHeader), sizeof(BMPFileHeader));
+    outputFile.write(reinterpret_cast<char*>(&this->infoHeader), sizeof(BMPInfoHeader));
+    char paddingBuffer[4] = { 0 };
+    int padding = static_cast<int>(4 - (this->infoHeader.width * sizeof(Pixel)) % 4) % 4;
+    for (int y = this->infoHeader.height - 1; y >= 0; --y) {
+        outputFile.write(
+            reinterpret_cast<char*>(this->pixels + y * this->infoHeader.height), 
+            static_cast<std::streamsize>(this->infoHeader.width * sizeof(Pixel)));
+        outputFile.write(paddingBuffer, padding);
+    }
 }

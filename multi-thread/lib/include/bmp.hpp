@@ -11,21 +11,21 @@
 class BMP
 {
 private:
-    std::ifstream* inputFile;
-    std::ofstream* outputFile;
-    BMPFileHeader* fileHeader;
-    BMPInfoHeader* infoHeader;
+    BMPFileHeader fileHeader;
+    BMPInfoHeader infoHeader;
     Pixel* pixels;
 
-    void loadFile();
-    void loadHeaders();
-    void loadPixels();
+    void loadFile(std::ifstream& file);
+    void loadHeaders(std::ifstream& file);
+    void loadPixels(std::ifstream& file);
 public:
     explicit BMP(const std::string& fileName);
+    BMP(const BMP& bmp);
     ~BMP();
 
-    Pixel& operator()(int r, int c);
-    Pixel operator()(int r, int c) const;
+    BMP& operator=(const BMP& bmp);
+    Pixel& operator()(int row, int col);
+    Pixel operator()(int row, int col) const;
 
     size_t getHeight();
     size_t getWidth();

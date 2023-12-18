@@ -2,6 +2,7 @@
 #define _FILTET_HPP_
 
 #include "bmp.hpp"
+#include <algorithm>
 
 class Filter
 {
@@ -10,7 +11,7 @@ public:
     Filter();
     ~Filter();
 
-    static void flipHorizontal(BMP& bmp);
+    static void verticalFlip(BMP& bmp);
 };
 
 

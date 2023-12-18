@@ -4,11 +4,11 @@ Filter::Filter() {}
 
 Filter::~Filter() {}
 
-void Filter::flipHorizontal(BMP& bmp)
+void Filter::verticalFlip(BMP& bmp)
 {
-    for (int y = 0; y < bmp.getHeight(); ++y) {
-        for (int x = 0; x < bmp.getWidth() / 2; ++x) {
-            std::swap(bmp(y, x), bmp(y, bmp.getWidth() - 1 - x));
+    for (int row = 0; row < bmp.getHeight() / 2; ++row) {
+        for (int col = 0; col < bmp.getWidth(); ++col) {
+            std::swap(bmp(row, col), bmp(bmp.getHeight() - row - 1, col));
         }
     }
 }
