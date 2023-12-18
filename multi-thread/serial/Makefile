@@ -5,9 +5,11 @@ PATH_LIB = ../lib
 
 PATH_SRC  = ./src
 PATH_SRC_LIB = $(PATH_LIB)/src
+PATH_SRC_LIB_BMP = $(PATH_SRC_LIB)/bmp
 
-PATH_INC_LIB =  $(PATH_LIB)/include
 PATH_INC  = ./include
+PATH_INC_LIB =  $(PATH_LIB)/include
+PATH_INC_LIB_BMP = $(PATH_INC_LIB)/bmp
 
 
 PATH_OBJ  = ./obj
@@ -16,8 +18,8 @@ OUTPUT = ImageFilters.out
 
 # ----------------------------------------------------------------------------------------
 
-vpath %.cpp $(PATH_SRC) $(PATH_SRC_LIB)
-vpath %.hpp $(PATH_INC) $(PATH_INC_LIB)
+vpath %.cpp $(PATH_SRC) $(PATH_SRC_LIB) $(PATH_SRC_LIB_BMP)
+vpath %.hpp $(PATH_INC) $(PATH_INC_LIB) $(PATH_INC_LIB_BMP)
 
 OBJS = main.o bmp.o filter.o
 
