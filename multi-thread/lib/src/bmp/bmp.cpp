@@ -1,6 +1,6 @@
 #include <fstream>
 #include <iostream>
-#include "../include/bmp.hpp"
+#include "../../include/bmp/bmp.hpp"
 
 BMP::BMP(const std::string& fileName)
 {

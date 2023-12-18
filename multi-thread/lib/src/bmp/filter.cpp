@@ -1,4 +1,4 @@
-#include "../include/filter.hpp"
+#include "../../include/bmp/filter.hpp"
 
 Filter::Filter() {}
 
