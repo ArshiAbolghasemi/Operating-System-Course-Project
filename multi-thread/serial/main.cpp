@@ -21,6 +21,14 @@ void applyFilters(std::string fileName)
     APM::logExecutionTime(startVerticalFlip, endVerticalFlip, "Flip");
     copy1.save("vertical_flip.bmp");  
 
+    BMP copy2 = bmp;
+    auto startBlur = timeService->getNow();
+    Filter::blur(copy2);
+    auto endBlur = timeService->getNow();
+    APM::logExecutionTime(startBlur, endBlur, "Blur");
+    copy2.save("blur.bmp");
+
+
     delete timeService; 
 }
 
