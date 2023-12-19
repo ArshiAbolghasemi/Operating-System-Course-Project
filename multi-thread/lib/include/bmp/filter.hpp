@@ -12,6 +12,8 @@ public:
     ~Filter();
 
     static void verticalFlip(BMP& bmp);
+
+    static void convolution(BMP& bmp, const std::vector<std::vector<double>>& kernel);
 };
 
 
