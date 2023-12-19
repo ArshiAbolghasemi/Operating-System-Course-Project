@@ -22,6 +22,7 @@ void applyFilters(std::string fileName)
         "diognal_hatch"
     };
 
+    auto startTime = timeService->getNow();
     for (const auto& filter : filters) {
         BMP copy = bmp;
 
@@ -45,6 +46,8 @@ void applyFilters(std::string fileName)
 
         copy.save("output/" + filter + ".bmp");
     }
+    auto endTime = timeService->getNow();
+    APM::logExecutionTime(startTime, endTime,  "execution");
 
     delete timeService; 
 }
