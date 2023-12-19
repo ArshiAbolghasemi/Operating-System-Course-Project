@@ -8,6 +8,7 @@
 class Filter
 {
 private:
+    static void convolution(BMP& bmp, const std::vector<std::vector<double>>& kernel);
 public:
     Filter();
     ~Filter();
@@ -15,7 +16,6 @@ public:
     static void verticalFlip(BMP& bmp);
     static void blur(BMP& bmp);
     static void purpleHaze(BMP& bmp);
-    static void convolution(BMP& bmp, const std::vector<std::vector<double>>& kernel);
 };
 
 

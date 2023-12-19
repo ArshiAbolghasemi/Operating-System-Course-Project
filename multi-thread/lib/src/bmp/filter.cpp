@@ -20,7 +20,7 @@ void Filter::blur(BMP& bmp)
         {2.0 / 16, 4.0 / 16, 2.0 / 16},
         {1.0 / 16, 2.0 / 16, 1.0 / 16}
     };
-    convolution(bmp, kernel);
+    Filter::convolution(bmp, kernel);
 }
 
 void Filter::purpleHaze(BMP& bmp)
