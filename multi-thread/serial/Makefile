@@ -18,6 +18,7 @@ PATH_OBJ  = ./obj
 PATH_OUTPUT = ./output
 
 OUTPUT = ImageFilters.out
+INPUT = ../input/sample_input.bmp
 
 # ----------------------------------------------------------------------------------------
 
@@ -30,7 +31,7 @@ OBJS = main.o bmp.o filter.o apm.o time_service.o pixel.o
 
 run: all
 	(make all)
-	(./$(OUTPUT) ../input/sample_input.bmp)
+	(./$(OUTPUT) $(INPUT))
 
 all: $(PATH_OBJ) $(OUTPUT) $(PATH_OUTPUT)
 
