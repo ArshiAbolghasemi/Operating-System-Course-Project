@@ -13,7 +13,7 @@ void Filter::verticalFlip(BMP& bmp)
     }
 }
 
-void Filter::convolution(BMP& bmp, const std::vector<std::vector<double>>& kernel)
+void Filter::convolution(BMP& bmp, const std::vector<std::vector<double>>& kernel, int coefficient)
 {
     size_t kernelSize = static_cast<int>(kernel.size());
     size_t kernelRadius = kernelSize / 2;
@@ -23,7 +23,7 @@ void Filter::convolution(BMP& bmp, const std::vector<std::vector<double>>& kerne
             double red = 0;
             double green = 0;
             double blue = 0;
-            
+
             for (int k = 0; k < kernelSize; ++k) {
                 for (int l = 0; l < kernelSize; ++l) {
                     int x = col + l - kernelRadius;
@@ -31,9 +31,9 @@ void Filter::convolution(BMP& bmp, const std::vector<std::vector<double>>& kerne
                     
                     if (x < 0 || x >= bmp.getWidth() || y < 0 || y >= bmp.getHeight()) continue;
                     
-                    red += bmp(y, x).red * kernel[k][l];
-                    green += bmp(y, x).green * kernel[k][l];
-                    blue += bmp(y, x).blue * kernel[k][l];
+                    red += bmp(y, x).red * (kernel[k][l] / coefficient);
+                    green += bmp(y, x).green * (kernel[k][l] / coefficient);
+                    blue += bmp(y, x).blue * (kernel[k][l] / coefficient);
                 }
             }
 

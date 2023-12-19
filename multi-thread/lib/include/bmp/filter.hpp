@@ -13,7 +13,7 @@ public:
 
     static void verticalFlip(BMP& bmp);
 
-    static void convolution(BMP& bmp, const std::vector<std::vector<double>>& kernel);
+    static void convolution(BMP& bmp, const std::vector<std::vector<double>>& kernel, int coefficient);
 };
 
 
