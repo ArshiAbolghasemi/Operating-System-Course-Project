@@ -23,7 +23,7 @@ OUTPUT = ImageFilters.out
 vpath %.cpp $(PATH_SRC) $(PATH_SRC_LIB) $(PATH_SRC_LIB_BMP) $(PATH_SRC_LIB_UTIL)
 vpath %.hpp $(PATH_INC) $(PATH_INC_LIB) $(PATH_INC_LIB_BMP) $(PATH_INC_LIB_UTIL)
 
-OBJS = main.o bmp.o filter.o apm.o time_service.o
+OBJS = main.o bmp.o filter.o apm.o time_service.o pixel.o
 
 # ----------------------------------------------------------------------------------------
 
@@ -47,6 +47,9 @@ $(PATH_OBJ)/apm.o: apm.cpp apm.hpp
 $(PATH_OBJ)/time_service.o: time_service.cpp time_service.hpp
 	$(CC) $(CPPFLAGS) -c -o $@ $<
 
+$(PATH_OBJ)/pixel.o: pixel.cpp pixel.hpp
+	$(CC) $(CPPFLAGS) -c -o $@ $<
+	
 # ----------------------------------------------------------------------------------------
 
 $(PATH_OBJ):  ; mkdir -p $@
