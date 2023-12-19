@@ -12,7 +12,7 @@ public:
 
     std::chrono::time_point<std::chrono::high_resolution_clock> getNow();
 
-    std::chrono::milliseconds diff(std::chrono::time_point<std::chrono::high_resolution_clock>& time1, 
+    std::chrono::duration<double, std::milli> diff(std::chrono::time_point<std::chrono::high_resolution_clock>& time1, 
         std::chrono::time_point<std::chrono::high_resolution_clock>& time2);
 };
 
