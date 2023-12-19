@@ -13,8 +13,9 @@ PATH_INC_LIB =  $(PATH_LIB)/include
 PATH_INC_LIB_BMP = $(PATH_INC_LIB)/bmp
 PATH_INC_LIB_UTIL = $(PATH_INC_LIB)/util
 
-
 PATH_OBJ  = ./obj
+
+PATH_OUTPUT = ./output
 
 OUTPUT = ImageFilters.out
 
@@ -27,7 +28,7 @@ OBJS = main.o bmp.o filter.o apm.o time_service.o pixel.o
 
 # ----------------------------------------------------------------------------------------
 
-all: $(PATH_OBJ) $(OUTPUT)
+all: $(PATH_OBJ) $(OUTPUT) $(PATH_OUTPUT)
 
 $(OUTPUT): $(addprefix $(PATH_OBJ)/, $(OBJS))
 	$(CC) $(CPPFLAGS) -o $@ $^
@@ -49,12 +50,15 @@ $(PATH_OBJ)/time_service.o: time_service.cpp time_service.hpp
 
 $(PATH_OBJ)/pixel.o: pixel.cpp pixel.hpp
 	$(CC) $(CPPFLAGS) -c -o $@ $<
-	
+
 # ----------------------------------------------------------------------------------------
 
 $(PATH_OBJ):  ; mkdir -p $@
 
+$(PATH_OUTPUT):
+	mkdir -p $(PATH_OUTPUT)
+
 .PHONY: all clean run
 
 clean:
-	rm -rf $(PATH_OBJ) $(OUTPUT) > /dev/null 2>&1
+	rm -rf $(PATH_OBJ) $(OUTPUT) $(PATH_OUTPUT) > /dev/null 2>&1
