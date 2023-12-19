@@ -28,6 +28,10 @@ OBJS = main.o bmp.o filter.o apm.o time_service.o pixel.o
 
 # ----------------------------------------------------------------------------------------
 
+run: all
+	(make all)
+	(./$(OUTPUT) ../input/sample_input.bmp)
+
 all: $(PATH_OBJ) $(OUTPUT) $(PATH_OUTPUT)
 
 $(OUTPUT): $(addprefix $(PATH_OBJ)/, $(OBJS))
