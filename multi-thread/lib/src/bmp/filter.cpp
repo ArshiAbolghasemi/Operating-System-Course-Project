@@ -37,6 +37,18 @@ void Filter::purpleHaze(BMP& bmp)
     }
 }
 
+void Filter::diagonalHatch(BMP& bmp, Pixel lineColor)
+{
+    int width = bmp.getWidth();
+    int height = bmp.getHeight();
+    int midWidth = width / 2;
+    int midHeight = height / 2;
+    Pixel black = {0, 0, 0};
+    Filter::drawLine(bmp, midWidth, 0, width - 1, midHeight, black);
+    Filter::drawLine(bmp, 0, 0, width - 1, height - 1, black);
+    Filter::drawLine(bmp, midWidth, height - 1, 0, midHeight, black);
+}
+
 void Filter::convolution(BMP& bmp, const std::vector<std::vector<double>>& kernel)
 {
     BMP result = bmp;
@@ -69,5 +81,21 @@ void Filter::convolution(BMP& bmp, const std::vector<std::vector<double>>& kerne
         }
 
         bmp = result;
+    }
+}
+
+void Filter::drawLine(BMP& bmp, int x1, int y1, int x2, int y2, const Pixel& color)
+{
+    int dx = x2 - x1;
+    int dy = y2 - y1;
+    int steps = std::max(abs(dx), abs(dy));
+    float xIncrement = static_cast<float>(dx) / (float) steps;
+    float yIncrement = static_cast<float>(dy) / (float) steps;
+    auto x = static_cast<float>(x1);
+    auto y = static_cast<float>(y1);
+    for (int i = 0; i <= steps; ++i) {
+        bmp((int) y, (int) x) = color;
+        x += xIncrement;
+        y += yIncrement;
     }
 }

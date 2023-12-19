@@ -19,18 +19,26 @@ void applyFilters(std::string fileName)
         "vertical_flip",
         "blur",
         "purple_haze",
+        "diognal_hatch"
     };
 
     for (const auto& filter : filters) {
         BMP copy = bmp;
+
         auto startTime = timeService->getNow();
+
         if (filter == "vertical_flip") {
             Filter::verticalFlip(copy);
         } else if (filter == "blur") {
             Filter::blur(copy);
         } else if (filter == "purple_haze") {
             Filter::purpleHaze(copy);
+        } else if (filter == "diognal_hatch") {
+            Filter::diagonalHatch(copy, {0, 0, 0});
+        } else {
+            throw new std::runtime_error("invalid filter");
         }
+        
         auto endTime = timeService->getNow();
 
         APM::logExecutionTime(startTime, endTime, filter);
