@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "../lib/include/bmp/bmp.hpp"
 #include "../lib/include/bmp/filter.hpp"
 #include "../lib/include/util/time_service.hpp"
@@ -14,20 +15,28 @@ void applyFilters(std::string fileName)
     auto endRead = timeService->getNow();
     APM::logExecutionTime(startRead, endRead, "Read");
 
-    BMP copy1 = bmp;
-    auto startVerticalFlip = timeService->getNow();
-    Filter::verticalFlip(copy1);
-    auto endVerticalFlip = timeService->getNow();
-    APM::logExecutionTime(startVerticalFlip, endVerticalFlip, "Flip");
-    copy1.save("vertical_flip.bmp");  
+    std::vector<std::string> filters = {
+        "vertical_flip",
+        "blur",
+        "purple_haze",
+    };
 
-    BMP copy2 = bmp;
-    auto startBlur = timeService->getNow();
-    Filter::blur(copy2);
-    auto endBlur = timeService->getNow();
-    APM::logExecutionTime(startBlur, endBlur, "Blur");
-    copy2.save("blur.bmp");
+    for (const auto& filter : filters) {
+        BMP copy = bmp;
+        auto startTime = timeService->getNow();
+        if (filter == "vertical_flip") {
+            Filter::verticalFlip(copy);
+        } else if (filter == "blur") {
+            Filter::blur(copy);
+        } else if (filter == "purple_haze") {
+            Filter::purpleHaze(copy);
+        }
+        auto endTime = timeService->getNow();
 
+        APM::logExecutionTime(startTime, endTime, filter);
+
+        copy.save(filter + ".bmp");
+    }
 
     delete timeService; 
 }

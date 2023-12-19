@@ -23,6 +23,20 @@ void Filter::blur(BMP& bmp)
     convolution(bmp, kernel);
 }
 
+void Filter::purpleHaze(BMP& bmp)
+{
+    for (int row = 0; row < bmp.getHeight(); ++row) {
+        for (int col = 0; col < bmp.getWidth(); ++col) {
+            auto red = bmp(row, col).red;
+            auto green = bmp(row, col).green;
+            auto blue = bmp(row, col).blue;
+            bmp(row, col).red = std::min(255, (int) (red * 0.5 + green * 0.3 + blue * 0.5));
+            bmp(row, col).green = std::min(255, (int) (red * 0.16 + green * 0.5 + blue * 0.16));
+            bmp(row, col).blue = std::min(255, (int) (red * 0.6 + green * 0.2 + blue * 0.8));
+        }   
+    }
+}
+
 void Filter::convolution(BMP& bmp, const std::vector<std::vector<double>>& kernel)
 {
     BMP result = bmp;
