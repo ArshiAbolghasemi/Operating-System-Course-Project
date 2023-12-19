@@ -43,7 +43,7 @@ void applyFilters(std::string fileName)
 
         APM::logExecutionTime(startTime, endTime, filter);
 
-        copy.save(filter + ".bmp");
+        copy.save("output/" + filter + ".bmp");
     }
 
     delete timeService; 
