@@ -63,6 +63,8 @@ $(PATH_OBJ):  ; mkdir -p $@
 $(PATH_OUTPUT):
 	mkdir -p $(PATH_OUTPUT)
 
+# -----------------------------------------------------------------------------------------
+
 .PHONY: all clean run
 
 clean:
