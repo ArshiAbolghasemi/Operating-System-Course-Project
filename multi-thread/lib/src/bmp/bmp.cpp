@@ -60,7 +60,7 @@ void BMP::loadHeaders(std::ifstream& file)
 {
     file.read(reinterpret_cast<char*>(&this->fileHeader), sizeof(BMPFileHeader));
     if (this->fileHeader.signature != BMP_SIGNATURE) {
-        throw std::runtime_error("Invalid BMP file");
+        throw new std::runtime_error("Invalid BMP file");
     }
 
     file.read(reinterpret_cast<char*>(&this->infoHeader), sizeof(BMPInfoHeader));
@@ -68,7 +68,7 @@ void BMP::loadHeaders(std::ifstream& file)
     if (this->infoHeader.bitsPerPixel != NUMBER_OF_BITS_PER_PIXEL) {
         char errMsg[40];
         sprintf(errMsg, "Only %d-bit BMP files are supported!", NUMBER_OF_BITS_PER_PIXEL);
-        throw std::runtime_error(errMsg);
+        throw new std::runtime_error(errMsg);
     }
 }
 
