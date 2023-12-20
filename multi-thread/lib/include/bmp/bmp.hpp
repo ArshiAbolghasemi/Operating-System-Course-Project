@@ -3,10 +3,11 @@
 
 #include <string>
 #include <fstream>
+#include <iostream>
 #include <exception>
-
 #include "bmp_header.hpp"
 #include "pixel.hpp"
+#include "../util/assert.hpp"
 
 class BMP
 {
@@ -31,6 +32,8 @@ public:
     size_t getWidth();
 
     void save(const std::string& fileName);
+
+    // std::vector<BMP&> divide(int chunkNumber);
 };
 
 #endif
