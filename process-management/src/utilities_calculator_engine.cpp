@@ -147,14 +147,3 @@ int UtilitiesCalculatorEngine::run()
     this->runWorkers(input_buildings, input_utilities);
     return EXIT_SUCCESS;
 }
-
-int main(int argc, char* argv[])
-{
-    try {
-        Log::info("start utilitis calculator engine");
-        return EXIT_SUCCESS;
-    } catch (std::exception& exception) {
-        Log::error("utilities calculator engine failed");
-        return EXIT_FAILURE;
-    }
-}

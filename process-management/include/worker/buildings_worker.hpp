@@ -10,7 +10,6 @@
 #include "../pipe/unnamed_pipe.hpp"
 #include "../pipe/named_pipe.hpp"
 #include "../service/csv_reader.hpp"
-#include "../util/util.hpp"
 #include "../enums/date_enums.hpp"
 #include "utility_worker.hpp"
 

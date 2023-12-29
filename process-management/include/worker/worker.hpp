@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <string>
 #include "../util/log.hpp"
+#include "../util/util.hpp"
 
 class Worker
 {
